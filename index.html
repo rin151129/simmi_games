@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070d18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="캔들 모양과 차트 흐름을 초급·중급·상급 3단계로 맞히는 주식 공부 게임">
+<meta name="robots" content="noindex, nofollow">
+<title>🕯️ 캔들 차트 마스터 · 3단계 퀴즈</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#070d18;
+  --bg2:#0b1424;
+  --card:#111c2e;
+  --card2:#16233a;
+  --card3:#1c2b45;
+  --gold:#e0b64a;
+  --gold2:#f7dc8a;
+  --gold-dim:rgba(224,182,74,.22);
+  --ink:#eaf0fb;
+  --muted:#93a3be;
+  --muted2:#6d7d97;
+  --bull:#e11d48;
+  --bull-soft:rgba(225,29,72,.18);
+  --bear:#2563eb;
+  --bear-soft:rgba(37,99,235,.18);
+  --ok:#22c55e;
+  --no:#f43f5e;
+  --r:16px;
+}
+html{-webkit-text-size-adjust:100%;font-size:17px}
+html.big{font-size:20px}
+html[hidden]{display:none}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(900px 420px at 8% -6%, rgba(224,182,74,.10), rgba(224,182,74,0) 60%),
+    radial-gradient(700px 380px at 96% 4%, rgba(37,99,235,.16), rgba(37,99,235,0) 62%),
+    radial-gradient(600px 500px at 50% 108%, rgba(225,29,72,.10), rgba(225,29,72,0) 60%),
+    linear-gradient(180deg,#070d18 0%,#0a1220 40%,#080f1c 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR","Nanum Gothic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.6;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  padding-bottom:calc(1.6rem + env(safe-area-inset-bottom));
+  -webkit-tap-highlight-color:transparent;
+}
+button{font-family:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+[hidden]{display:none !important}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky;top:0;z-index:40;
+  background:rgba(7,13,24,.92);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(224,182,74,.18);
+  padding-top:env(safe-area-inset-top);
+}
+.top-in{max-width:46rem;margin:0 auto;padding:.55rem .8rem .45rem;display:flex;align-items:center;gap:.5rem}
+.brand{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand b{
+  font-size:1.02rem;letter-spacing:-.02em;font-weight:900;
+  background:linear-gradient(120deg,#f7dc8a,#e0b64a 45%,#c8971f);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  white-space:nowrap;
+}
+.brand small{font-size:.68rem;color:var(--muted2);font-weight:700;letter-spacing:.02em}
+.fsbtn{
+  margin-left:auto;flex:0 0 auto;
+  background:rgba(224,182,74,.10);border:1px solid var(--gold-dim);border-radius:999px;
+  color:var(--gold2);font-size:.72rem;font-weight:800;padding:.35rem .6rem;min-height:2.1rem;
+}
+.fsbtn:active{transform:translateY(1px)}
+
+.tabs{display:flex;gap:.35rem;max-width:46rem;margin:0 auto;padding:0 .8rem .55rem}
+.tab{
+  flex:1 1 0;min-width:0;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  color:var(--muted);border-radius:12px;padding:.5rem .2rem;
+  font-size:.8rem;font-weight:800;line-height:1.2;
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.tab i{font-style:normal;font-size:1rem;line-height:1}
+.tab[aria-selected="true"]{
+  background:linear-gradient(180deg,rgba(224,182,74,.22),rgba(224,182,74,.08));
+  border-color:rgba(224,182,74,.55);color:var(--gold2);
+  box-shadow:0 0 0 1px rgba(224,182,74,.12) inset;
+}
+
+/* ---------- layout ---------- */
+main{max-width:46rem;margin:0 auto;padding:.7rem .8rem 0}
+.screen{animation:fade .22s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r);
+  box-shadow:0 10px 26px rgba(0,0,0,.35),0 0 0 1px rgba(224,182,74,.05) inset;
+}
+h2.sec{
+  font-size:.95rem;font-weight:900;margin:1.1rem .1rem .55rem;
+  display:flex;align-items:center;gap:.4rem;color:var(--gold2);letter-spacing:-.01em;
+}
+h2.sec:first-child{margin-top:.2rem}
+h2.sec .n{font-size:.72rem;color:var(--muted2);font-weight:700}
+
+/* ---------- level chips ---------- */
+.levels{display:flex;gap:.4rem;margin-bottom:.6rem}
+.lv{
+  flex:1 1 0;min-width:0;
+  border-radius:13px;border:1.5px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  padding:.5rem .3rem;font-size:.82rem;font-weight:800;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:.1rem;line-height:1.15;
+}
+.lv span{font-size:.62rem;font-weight:700;color:var(--muted2)}
+.lv[data-on="1"]{color:#0a1120}
+.lv[data-on="1"] span{color:rgba(10,17,32,.66)}
+.lv.b[data-on="1"]{background:linear-gradient(160deg,#4ade80,#16a34a);border-color:#4ade80}
+.lv.i[data-on="1"]{background:linear-gradient(160deg,#fbbf24,#d97706);border-color:#fbbf24}
+.lv.a[data-on="1"]{background:linear-gradient(160deg,#fb7185,#be123c);border-color:#fb7185}
+
+/* ---------- quiz HUD ---------- */
+.hud{display:flex;align-items:center;gap:.5rem;margin-bottom:.55rem}
+.bar{flex:1 1 auto;height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar>i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#e0b64a,#f7dc8a);transition:width .3s ease}
+.hud .num{font-size:.75rem;font-weight:800;color:var(--muted);white-space:nowrap}
+.hud .pt{font-size:.75rem;font-weight:900;color:var(--gold2);white-space:nowrap}
+.combo{
+  white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+  position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+  background:linear-gradient(135deg,#f7dc8a,#d9a92f);color:#0a1120;
+  font-weight:900;font-size:.8rem;padding:.45rem .9rem;border-radius:999px;
+  box-shadow:0 8px 24px rgba(224,182,74,.35);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;
+}
+.combo.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- question head ---------- */
+.qhead{padding:.75rem .85rem .25rem}
+.qtag{
+  display:inline-block;font-size:.68rem;font-weight:900;letter-spacing:.02em;
+  color:#0a1120;background:linear-gradient(135deg,#f7dc8a,#d9a92f);
+  border-radius:999px;padding:.12rem .55rem;margin-bottom:.4rem;
+}
+.qtitle{font-size:1.02rem;font-weight:900;letter-spacing:-.01em;line-height:1.42;margin:0}
+.qsub{font-size:.8rem;color:var(--muted);margin:.25rem 0 0;line-height:1.5}
+
+/* ---------- chart ---------- */
+.chartwrap{
+  background:linear-gradient(165deg,#0a1424,#0c1a2d 60%,#0b1728);
+  border:1px solid rgba(224,182,74,.16);
+  border-radius:14px;margin:.6rem .6rem 0;padding:.25rem .2rem .1rem;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4) inset;
+}
+.chartwrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem;padding:.1rem .75rem .55rem;font-size:.66rem;color:var(--muted2);font-weight:700}
+.legend b{display:inline-flex;align-items:center;gap:.22rem;font-weight:800;color:var(--muted)}
+.sw{width:.55rem;height:.55rem;border-radius:2px;display:inline-block}
+.sw.bull{background:var(--bull)}
+.sw.bear{background:var(--bear)}
+.sw.ma{background:#e0b64a;height:2px;border-radius:2px}
+
+/* ---------- options ---------- */
+.opts{display:grid;gap:.45rem;padding:.65rem .7rem .7rem}
+.opt{
+  display:flex;align-items:flex-start;gap:.55rem;text-align:left;
+  background:rgba(255,255,255,.035);
+  border:1.5px solid rgba(255,255,255,.09);
+  border-radius:13px;padding:.7rem .75rem;min-height:3rem;
+  font-size:.92rem;font-weight:700;line-height:1.45;color:var(--ink);
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.opt:active{transform:scale(.99)}
+.opt .k{
+  flex:0 0 auto;width:1.45rem;height:1.45rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(224,182,74,.16);color:var(--gold2);
+  font-size:.74rem;font-weight:900;margin-top:.05rem;
+}
+.opt.ok{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.75)}
+.opt.ok .k{background:var(--ok);color:#04220f}
+.opt.no{background:rgba(244,63,94,.14);border-color:rgba(244,63,94,.7)}
+.opt.no .k{background:var(--no);color:#2a0510}
+.opt.dim{opacity:.42}
+.opt[disabled]{cursor:default}
+
+/* ---------- explanation ---------- */
+.exp{margin:.1rem .7rem .1rem;border-radius:14px;overflow:hidden;border:1px solid rgba(224,182,74,.3);
+  background:linear-gradient(180deg,rgba(224,182,74,.10),rgba(224,182,74,.03));animation:fade .25s ease both}
+.exp .top-line{display:flex;align-items:center;gap:.45rem;padding:.6rem .8rem .1rem}
+.exp .verdict{font-size:1.35rem;font-weight:900;line-height:1}
+.exp .ans{font-size:.86rem;font-weight:900;color:var(--gold2)}
+.exp .body{padding:.15rem .8rem .7rem;font-size:.86rem;color:#dfe7f5;line-height:1.62}
+.exp .body b{color:#fff}
+.exp .keyline{
+  margin:.15rem .8rem .7rem;padding:.5rem .6rem;border-radius:10px;
+  background:rgba(0,0,0,.28);border-left:3px solid var(--gold);
+  font-size:.8rem;color:#e9dfc0;font-weight:700;line-height:1.5;
+}
+.rulechip{
+  display:inline-block;font-size:.68rem;font-weight:900;letter-spacing:.01em;
+  color:#0a1120;background:linear-gradient(135deg,#f7dc8a,#d9a92f);
+  border-radius:999px;padding:.1rem .5rem;
+}
+.nextbtn{
+  display:block;width:calc(100% - 1.4rem);margin:.55rem .7rem .75rem;
+  min-height:3.1rem;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#f7dc8a,#e0b64a 55%,#c8971f);
+  color:#0a1120;font-size:.98rem;font-weight:900;letter-spacing:-.01em;
+  box-shadow:0 8px 20px rgba(224,182,74,.25);
+}
+.nextbtn:active{transform:translateY(1px)}
+.nextbtn.ghost{background:rgba(255,255,255,.06);color:var(--ink);border:1.5px solid rgba(255,255,255,.14);box-shadow:none}
+
+/* ---------- result ---------- */
+.result{padding:1.1rem .9rem 1rem;text-align:center}
+.medal{font-size:2.6rem;line-height:1}
+.result h3{margin:.3rem 0 .1rem;font-size:1.25rem;font-weight:900;letter-spacing:-.02em}
+.result .sub{color:var(--muted);font-size:.82rem;margin:0 0 .8rem}
+.scorebox{display:flex;justify-content:center;gap:.5rem;margin:.2rem 0 .9rem}
+.stat{flex:1 1 0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:.5rem .3rem}
+.stat b{display:block;font-size:1.05rem;color:var(--gold2);font-weight:900;line-height:1.2}
+.stat span{font-size:.66rem;color:var(--muted2);font-weight:700}
+.wronglist{text-align:left;margin:.2rem 0 .8rem;border-top:1px solid rgba(255,255,255,.08);padding-top:.6rem}
+.wronglist .h{font-size:.74rem;font-weight:900;color:var(--muted);margin-bottom:.3rem}
+.wronglist li{font-size:.78rem;color:#cfd9ea;margin:.25rem 0 .25rem .1rem;list-style:none;display:flex;gap:.4rem}
+.wronglist li i{font-style:normal;color:var(--no);font-weight:900;flex:0 0 auto}
+.wronglist ul{margin:0;padding:0}
+.btns{display:grid;gap:.45rem}
+.btn{
+  min-height:3rem;border-radius:13px;border:none;font-size:.94rem;font-weight:900;
+  background:linear-gradient(135deg,#f7dc8a,#e0b64a 55%,#c8971f);color:#0a1120;
+}
+.btn.ghost{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.14);color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+
+/* ---------- 도감 ---------- */
+.patlist{display:grid;gap:.55rem}
+.pat{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,var(--card2),var(--card));}
+.pat .hd{display:flex;align-items:center;gap:.45rem;padding:.6rem .75rem .1rem}
+.pat .no{
+  flex:0 0 auto;width:1.5rem;height:1.5rem;border-radius:8px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#f7dc8a,#d9a92f);color:#0a1120;font-weight:900;font-size:.8rem;
+}
+.pat h4{margin:0;font-size:.9rem;font-weight:900;letter-spacing:-.01em;flex:1 1 auto;line-height:1.35}
+.pat .badge{flex:0 0 auto;font-size:.64rem;font-weight:900;padding:.12rem .45rem;border-radius:999px;white-space:nowrap}
+.badge.good{background:rgba(34,197,94,.18);color:#6ee7a0;border:1px solid rgba(34,197,94,.4)}
+.badge.warn{background:rgba(251,191,36,.16);color:#fcd34d;border:1px solid rgba(251,191,36,.4)}
+.badge.bad{background:rgba(244,63,94,.16);color:#fda4af;border:1px solid rgba(244,63,94,.4)}
+.pat .mini{padding:.15rem .35rem 0}
+.pat .mini svg{display:block;width:100%;height:auto}
+.pat .tx{padding:.45rem .8rem .7rem;font-size:.8rem;color:#d5dfef;line-height:1.58}
+.pat .tx b{color:var(--gold2)}
+.pat .tx .say{display:block;margin-top:.35rem;font-size:.76rem;color:var(--muted)}
+
+.filters{display:flex;gap:.35rem;flex-wrap:wrap;margin:.2rem .1rem .6rem}
+.fchip{
+  border-radius:999px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);
+  color:var(--muted);font-size:.74rem;font-weight:800;padding:.35rem .7rem;min-height:2.2rem;
+}
+.fchip[data-on="1"]{background:rgba(224,182,74,.18);border-color:rgba(224,182,74,.5);color:var(--gold2)}
+.rules{display:grid;gap:.3rem}
+.rule{display:flex;gap:.55rem;padding:.55rem .65rem;border-radius:11px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.055)}
+.rule .n{flex:0 0 auto;font-size:.72rem;font-weight:900;color:var(--gold);width:2.1rem;padding-top:.1rem}
+.rule .c{flex:1 1 auto;min-width:0}
+.rule .t{font-size:.83rem;font-weight:900;line-height:1.4;letter-spacing:-.01em}
+.rule .d{font-size:.76rem;color:var(--muted);line-height:1.5;margin-top:.1rem}
+.rule .lv{flex:0 0 auto;align-self:flex-start;font-size:.6rem;font-weight:900;padding:.1rem .35rem;border-radius:6px;margin-top:.15rem}
+.rule .lv.b{background:rgba(74,222,128,.14);color:#86efac}
+.rule .lv.i{background:rgba(251,191,36,.14);color:#fcd34d}
+.rule .lv.a{background:rgba(251,113,133,.14);color:#fda4af}
+.empty{font-size:.82rem;color:var(--muted);text-align:center;padding:1.4rem .8rem}
+
+/* ---------- 기록 ---------- */
+.rec{display:grid;gap:.45rem}
+.recrow{display:flex;align-items:center;gap:.6rem;padding:.65rem .75rem;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+.recrow .ic{width:1.7rem;height:1.7rem;border-radius:9px;display:grid;place-items:center;font-size:.9rem;flex:0 0 auto}
+.recrow .ic.b{background:rgba(74,222,128,.16)}
+.recrow .ic.i{background:rgba(251,191,36,.16)}
+.recrow .ic.a{background:rgba(251,113,133,.16)}
+.recrow .nm{flex:1 1 auto;font-size:.85rem;font-weight:800}
+.recrow .nm small{display:block;font-size:.68rem;color:var(--muted2);font-weight:700}
+.recrow .sc{font-size:.9rem;font-weight:900;color:var(--gold2);white-space:nowrap}
+.recrow .sc em{font-style:normal;font-size:.66rem;color:var(--muted2);font-weight:700}
+.tipbox{font-size:.76rem;color:var(--muted);line-height:1.6;padding:.7rem .8rem;border-radius:12px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.22);margin-top:.6rem}
+.foot{text-align:center;font-size:.66rem;color:var(--muted2);padding:1.4rem .8rem .6rem;line-height:1.7}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* ---------- SVG 차트 ---------- */
+.rv{animation:rvIn .42s cubic-bezier(.22,1,.36,1) both;transform-box:fill-box;transform-origin:center bottom}
+@keyframes rvIn{from{opacity:0;transform:translateY(6px) scale(.55)}to{opacity:1;transform:none}}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <b>🕯️ 캔들 차트 마스터</b>
+      <small>차트 읽기의 규칙 · 초급·중급·상급 3단계</small>
+    </div>
+    <button class="fsbtn" id="fsBtn" type="button" aria-label="글자 크기 바꾸기">가+</button>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="메뉴">
+    <button class="tab" role="tab" data-tab="quiz" aria-selected="true" type="button"><i>🕯️</i>퀴즈</button>
+    <button class="tab" role="tab" data-tab="book" aria-selected="false" type="button"><i>📖</i>패턴 도감</button>
+    <button class="tab" role="tab" data-tab="stats" aria-selected="false" type="button"><i>🏆</i>내 기록</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-quiz" class="screen" aria-label="퀴즈"></section>
+  <section id="view-book" class="screen" aria-label="패턴 도감" hidden></section>
+  <section id="view-stats" class="screen" aria-label="내 기록" hidden></section>
+</main>
+
+<div id="combo" class="combo" role="status" aria-live="polite"></div>
+<div class="foot">파동마스터 《차트 읽기의 규칙 핸드북 87선》 기반 학습 게임<br>양봉 = 빨강 · 음봉 = 파랑 (한국 증시 기준) · 투자 판단의 책임은 본인에게 있습니다</div>
+
+<script>
+/* =========================================================
+   캔들 차트 마스터 — 문제 · 도감 데이터
+   원전: 파동마스터 《차트 읽기의 규칙 핸드북 87선》 (PART 1~8, #1~#89)
+   + 텔레그램 '심미ai방'에서 다룬 「장대양봉 뒤 음봉 5가지 패턴」
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var D = { questions: [], patterns: [], rules: [] };
+
+  /* 공통 차트 기본값 */
+  function ch(o) {
+    var base = { start: 10000, unit: 100, noise: 0.42, seed: 7, ma: [5] };
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) base[k] = o[k];
+    return base;
+  }
+
+  /* 자주 쓰는 캔들 모양 (unit 배수 오프셋) */
+  var SHAPE = {
+    bigBull: { o: 0.05, h: 1.3, l: -0.08, c: 1.2, v: 3.0 },
+    bigBear: { o: 0.06, h: 0.12, l: -1.3, c: -1.2, v: 3.0 },
+    smallBear: { o: 0.02, h: 0.1, l: -0.3, c: -0.22, v: 0.6 },
+    smallBull: { o: 0, h: 0.5, l: -0.1, c: 0.4, v: 1.3 }
+  };
+
+  /* =========================================================
+     🟢 초급 — PART 1~4 (캔들 · 거래량 · 지지저항 · 매매기초)
+     ========================================================= */
+  D.questions.push(
+    {
+      id: 'b01', level: 'beginner', tag: '초급 #1', hlBack: 0,
+      title: '마지막 캔들의 이름은?',
+      sub: '몸통은 결과, 꼬리는 과정. 캔들 하나에 하루의 싸움이 다 들어 있어요.',
+      chart: ch({ seed: 11, n: 12, path: [10000, 10020, 9990, 10010, 10000], pattern: [SHAPE.bigBull], next: [{ o: 0, h: 0.45, l: -0.12, c: 0.32, v: 1.2 }] }),
+      options: ['양봉 — 시가보다 종가가 위에서 마감', '음봉 — 시가보다 종가가 아래에서 마감', '도지 — 시가와 종가가 거의 같다', '윗꼬리만 길고 몸통이 없는 캔들'],
+      answer: 0,
+      why: '시가보다 <b>종가가 위</b>에서 끝나면 양봉, 아래면 음봉이에요. 이 캔들은 몸통이 꼬리보다 훨씬 길어서 매수 에너지가 강한 <b>장대양봉</b>입니다. 색깔이 아니라 <b>방향</b>을 보는 게 시작이에요.',
+      key: '양봉이 많으면 사는 힘이 센 것 — 색깔이 아니라 방향을 봐라.',
+      rule: '#1 양봉 vs 음봉', revealLabel: '정답 · 양봉 (장대양봉)'
+    },
+    {
+      id: 'b02', level: 'beginner', tag: '초급 #2', hlBack: 0,
+      title: '하락하던 차트에 장대양봉이 나왔어요. 무엇을 뜻할까요?',
+      chart: ch({ seed: 12, n: 12, path: [10450, 10300, 10200, 10150, 10100], pattern: [SHAPE.bigBull], next: [{ o: 0, h: 0.45, l: -0.1, c: 0.35, v: 1.3 }] }),
+      options: ['매수세가 압도적으로 이긴 날 — 하루 만에 판을 바꾸는 캔들', '매도세가 이긴 날 — 추가 하락 신호', '아무도 관심 없는 횡보 구간', '세력이 물량을 넘기고 있는 신호'],
+      answer: 0,
+      why: '장대양봉은 <b>매수가 완승한 날</b>이에요. 긴 몸통 하나가 작은 양봉 세 개보다 강합니다. 특히 하락 뒤에 나온 장대양봉은 추세를 바꾸는 신호가 될 수 있어요 — 단, <b>거래량이 실렸는지</b>를 꼭 같이 봐야 합니다.',
+      key: '작은 양봉 3개보다 장대양봉 1개가 더 강하다 (#2).',
+      rule: '#7 장대양봉 vs 장대음봉', revealLabel: '정답 · 매수 완승 (추세 전환 후보)'
+    },
+    {
+      id: 'b03', level: 'beginner', tag: '초급 #3', hlBack: 0,
+      title: '위로 길게 뻗은 캔들. 이름과 의미는?',
+      sub: '장중에 위로 확 밀어 올렸는데 종가는 아래로 돌아왔어요.',
+      chart: ch({ seed: 13, n: 12, path: [10000, 10120, 10250, 10350, 10400], pattern: [{ o: 0.05, h: 1.5, l: -0.2, c: -0.12, v: 2.4 }], next: [{ o: 0, h: 0.1, l: -0.9, c: -0.8, v: 1.8 }] }),
+      options: ['유성형 — 위에서 매도세를 맞았다', '망치형 — 아래에서 매수세가 받쳤다', '도지 — 방향을 못 정했다', '장대양봉 — 매수가 완승했다'],
+      answer: 0,
+      why: '윗꼬리는 <b>위로 올라갔다가 밀려 내려온 흔적</b>이에요. 올라가려 했지만 위에서 매도가 나온 것 — 즉 <b>위에 적(매물)이 있다</b>는 뜻입니다. 상승 끝에서 나온 긴 윗꼬리는 특히 경계해야 해요.',
+      key: '윗꼬리가 길면 위에 적이 있다 (#3).',
+      rule: '#3 윗꼬리가 길면 위에서 맞은 거다', revealLabel: '정답 · 유성형 (위에서 매도세)'
+    },
+    {
+      id: 'b04', level: 'beginner', tag: '초급 #4', hlBack: 0,
+      title: '지지선까지 밀렸다가 이렇게 마감했어요. 무엇을 말할까요?',
+      chart: ch({
+        seed: 14, n: 12, path: [10450, 10300, 10150, 10080],
+        lines: [{ role: 'support', value: 'minLow:0-11', from: 0, to: 11, label: '지지선' }],
+        pattern: [{ o: 0.05, h: 0.12, l: -1.1, c: 0.25, v: 2.6 }],
+        next: [{ o: 0, h: 0.6, l: -0.05, c: 0.5, v: 1.8 }]
+      }),
+      options: ['밑에서 매수세가 받쳤다 — 반등 후보', '위에서 매도세를 맞았다 — 추가 하락', '거래량이 없어 의미가 없다', '세력이 분배하고 있다'],
+      answer: 0,
+      why: '아랫꼬리는 <b>아래로 빠졌다가 다시 올라온 흔적</b>이에요. 지지선 근처에서 긴 아랫꼬리가 나왔다는 건 <b>밑에서 누군가 물량을 받아냈다</b>는 뜻 — 망치형(hammer)이라고 부릅니다.',
+      key: '아랫꼬리가 길면 밑에 아군이 있다 (#4).',
+      rule: '#4 아랫꼬리가 길면 밑에서 버틴 거다', revealLabel: '정답 · 망치형 (아래에서 매수)'
+    },
+    {
+      id: 'b05', level: 'beginner', tag: '초급 #5', hlBack: 0,
+      title: '시가와 종가가 거의 같습니다. 이 캔들의 이름과 의미는?',
+      chart: ch({ seed: 15, n: 12, path: [10000, 10100, 10200, 10300], pattern: [{ o: 0, h: 0.62, l: -0.62, c: -0.02, v: 1.5 }], next: [{ o: 0, h: 0.5, l: -0.05, c: 0.45, v: 1.6 }] }),
+      options: ['도지(십자형) — 승부가 안 났고 다음 날 방향이 결정된다', '장대양봉 — 매수 완승', '유성형 — 위에서 매도세', '망치형 — 아래에서 매수세'],
+      answer: 0,
+      why: '시가와 종가가 거의 같으면 <b>양쪽 다 싸웠는데 비긴</b> 상태예요. 몸통이 없으니 방향이 정해지지 않았다는 뜻이고, 그래서 <b>도지 다음 날 캔들</b>이 방향을 결정합니다. 꼭지점에서 나온 도지는 특히 조심하세요.',
+      key: '도지 = 눈치 보는 중. 다음 날 방향을 보고 판단해라 (#5).',
+      rule: '#5 도지(십자형) = 눈치 보는 중', revealLabel: '정답 · 도지 (방향 미결정)'
+    },
+    {
+      id: 'b06', level: 'beginner', tag: '초급 #6', hlBack: 0,
+      title: '하루 만에 판이 바뀐 파란 캔들. 이름과 의미는?',
+      chart: ch({ seed: 16, n: 12, path: [10000, 10150, 10300, 10380], pattern: [SHAPE.bigBear], next: [{ o: 0, h: 0.1, l: -0.7, c: -0.6, v: 1.6 }] }),
+      options: ['장대음봉 — 매도가 완승, 추세를 바꾼다', '장대양봉 — 매수 완승', '도지 — 균형 상태', '망치형 — 바닥 신호'],
+      answer: 0,
+      why: '시가보다 종가가 크게 아래로 밀린 <b>장대음봉</b>이에요. 매도가 완승한 날로, 이 캔들 하나가 추세를 바꿉니다. 상승 중에 나온 장대음봉 + 큰 거래량은 <b>세력이 물량을 넘기기 시작했다</b>는 신호일 수 있어요.',
+      key: '장대음봉은 매도 완승 — 추세를 바꾸는 캔들 (#7).',
+      rule: '#7 장대양봉 vs 장대음봉', revealLabel: '정답 · 장대음봉 (매도 완승)'
+    },
+    {
+      id: 'b07', level: 'beginner', tag: '초급 #7', hlBack: 0,
+      title: '한참 오른 뒤 꼭대기에서 나온 양봉. 어떻게 봐야 할까요?',
+      sub: '색깔은 빨강(양봉)이고 거래량도 터졌어요. 그런데 위치가 문제입니다.',
+      chart: ch({ seed: 17, n: 13, path: [9950, 10050, 10150, 10260, 10400, 10560], pattern: [{ o: -0.05, h: 1.0, l: -0.15, c: 0.95, v: 3.4 }], next: [{ o: 0, h: 0.1, l: -0.85, c: -0.75, v: 2.2 }] }),
+      options: ['위치가 꼭대기 — 마지막 불꽃일 수 있으니 추격 금지', '바닥 양봉이니 반등 신호다', '색깔이 빨강이니 무조건 매수', '거래량이 터졌으니 세력 매집이다'],
+      answer: 0,
+      why: '같은 양봉이어도 <b>어디서 나왔는지</b>가 다릅니다. 바닥 양봉은 반등 신호, 꼭대기 양봉은 <b>마지막 불꽃</b>이에요. 고점에서 거래량까지 터졌다면 오히려 <b>분배(세력이 넘기는 중)</b>를 의심해야 합니다.',
+      key: '색깔보다 위치 — 꼭대기 양봉은 마지막 불꽃 (#8).',
+      rule: '#8 캔들 색깔보다 위치가 더 중요하다', revealLabel: '정답 · 꼭대기 양봉 (마지막 불꽃)'
+    },
+    {
+      id: 'b08', level: 'beginner', tag: '초급 #8', hlBack: 0,
+      title: '가격은 오르는데 거래량이 점점 줄고 있어요. 판단은?',
+      sub: '아래 막대(거래량)가 갈수록 짧아지는 중입니다.',
+      chart: ch({ seed: 18, n: 14, path: [10000, 10080, 10160, 10240], volPath: [1.5, 1.15, 0.75, 0.4], pattern: [{ o: 0, h: 0.55, l: -0.1, c: 0.45, v: 0.35 }], next: [{ o: 0, h: 0.1, l: -0.6, c: -0.5, v: 0.9 }] }),
+      options: ['거래량 없는 상승 = 사기(가짜) 상승 — 따라가지 마라', '거래량이 줄면 에너지 축적이니 매수', '거래량은 원래 상관없다', '세력이 매집 중이니 풀매수'],
+      answer: 0,
+      why: '거래량 없이 올라가는 건 상승이 아니라 <b>사기</b>예요. 진짜 상승은 거래량이 따라옵니다. 다만 <b>눌림목</b>에서 거래량이 마르는 건 정반대로 좋은 신호 — <b>상승 중인데 거래량이 없다</b>는 게 함정입니다.',
+      key: '거래량 없는 상승은 혼자 올라간 것 (#9).',
+      rule: '#9 거래량 있는 상승 vs 없는 상승', revealLabel: '정답 · 거래량 없는 상승 (의심)'
+    },
+    {
+      id: 'b09', level: 'beginner', tag: '초급 #9', hlBack: 0,
+      title: '평소의 3배가 넘는 거래량이 터졌습니다. 무엇을 뜻할까요?',
+      chart: ch({ seed: 19, n: 12, path: [10000, 10010, 9990, 10008, 10000], pattern: [{ o: 0, h: 0.95, l: -0.12, c: 0.85, v: 3.3 }], avgVol: true, next: [{ o: 0, h: 0.55, l: -0.1, c: 0.45, v: 1.5 }] }),
+      options: ['큰손이 움직였다 — 이상 신호이니 주목', '개미들의 장난이라 무시해도 된다', '세력이 빠지고 있다', '아무 의미가 없다'],
+      answer: 0,
+      why: '평소 거래량의 <b>3배</b>가 터지면 누군가 큰돈을 넣은 거예요. 개미가 만드는 거래량에는 한계가 있습니다. 점선(평균 거래량)보다 확 튀는 막대가 보이면 <b>비정상 = 큰손의 발자국</b>이라고 읽으세요.',
+      key: '평균의 3배 = 이상 신호 (#14), 비정상 거래량 = 큰손의 발자국 (#10).',
+      rule: '#10 거래량 터지면 = 큰손이 움직인 흔적', revealLabel: '정답 · 평균 3배 (큰손의 발자국)'
+    },
+    {
+      id: 'b10', level: 'beginner', tag: '초급 #10', hlBack: null,
+      title: '주가가 이 선에서 여러 번 멈췄습니다. 이 선은?',
+      chart: ch({
+        seed: 20, n: 14, path: [10320, 10060, 10240, 10070, 10060],
+        lines: [{ role: 'support', value: 10055, from: 0, to: 13, label: '지지선?' }],
+        next: [{ o: 0, h: 0.6, l: -0.1, c: 0.5, v: 1.6 }]
+      }),
+      options: ['지지선 — 바닥에 깔린 방석', '저항선 — 천장에 붙은 유리벽', '이동평균선', '추세 전환선'],
+      answer: 0,
+      why: '주가가 내려오다가 <b>딱 멈추는 자리</b>가 지지선이에요. 바닥에 방석이 깔린 것과 같습니다. 반대로 올라가다 막히는 자리는 저항선(천장의 유리벽)이고요. 이 방석이 뚫리면 추락이 시작됩니다.',
+      key: '지지선 = 바닥의 방석, 뚫리면 추락 (#17).',
+      rule: '#17 지지선이 뭔지 — 바닥에 깔린 방석', revealLabel: '정답 · 지지선 (바닥의 방석)'
+    },
+    {
+      id: 'b11', level: 'beginner', tag: '초급 #11', hlBack: 0,
+      title: '저항선을 뚫고 올라간 뒤, 다시 되돌아와 이 자리에서 멈췄습니다.',
+      sub: '천장이었던 선이 이제 바닥처럼 받쳐주고 있어요.',
+      chart: ch({
+        seed: 21, n: 13, path: [9920, 10020, 10060, 9990, 10040],
+        lines: [{ role: 'resistance', value: 10100, from: 0, to: 15, label: '저항 → 지지' }],
+        pattern: [{ o: 0.05, h: 0.95, l: 0, c: 0.9, v: 2.8 }, { o: 0, h: 0.05, l: -0.55, c: -0.45, v: 0.8 }],
+        next: [{ o: 0, h: 0.65, l: -0.05, c: 0.55, v: 1.7 }]
+      }),
+      options: ['저항이 지지로 바뀐 자리 — 진짜 돌파 확인', '가짜 돌파 — 곧 폭락한다', '저항선 재돌파 실패 — 매도 신호', '아무 의미 없는 자리'],
+      answer: 0,
+      why: '천장이었던 자리가 뚫리면 <b>바닥이 됩니다</b>. 저항 돌파 후 되돌아왔을 때 그 자리에서 <b>지지하면 진짜 돌파</b>예요. 이 원리 하나로 차트의 절반이 읽힙니다.',
+      key: '저항 뚫고 되돌림에서 지지하면 진짜 돌파 (#19).',
+      rule: '#19 저항 뚫리면 지지가 된다', revealLabel: '정답 · 저항이 지지로 (진짜 돌파)'
+    },
+    {
+      id: 'b12', level: 'beginner', tag: '초급 #12', hlBack: 0,
+      title: '이 흐름은 상승추세일까요? 판단 기준은 무엇일까요?',
+      chart: ch({
+        seed: 22, n: 22, noise: 0.3,
+        legs: [{ to: 9950, n: 3 }, { to: 10040, n: 3 }, { to: 9990, n: 2 }, { to: 10120, n: 3 }, { to: 10070, n: 2 }, { to: 10200, n: 3 }],
+        next: [{ o: 0, h: 0.5, l: -0.05, c: 0.45, v: 1.3 }]
+      }),
+      options: ['상승추세 — 저점이 점점 높아지고 있다', '하락추세 — 고점이 낮아지고 있다', '횡보 — 방향이 없다', '판단할 수 없다'],
+      answer: 0,
+      why: '상승추세 판단은 <b>저점</b>만 봅니다. 고점이 높아지는 건 당연하고, <b>저점이 올라간다</b>는 게 밑에서 받치는 힘이 세진다는 뜻이에요. 반대로 하락추세는 저점이 아니라 <b>고점이 낮아지는지</b>로 봅니다.',
+      key: '상승추세는 저점, 하락추세는 고점으로 판단한다 (#20·#21).',
+      rule: '#20 상승추세 = 저점이 점점 높아진다', revealLabel: '정답 · 상승추세 (저점 상승)'
+    },
+    {
+      id: 'b13', level: 'beginner', tag: '초급 #13', hlBack: 0,
+      title: '저항선을 뚫었는데 거래량이 평소 수준입니다. 이 돌파는?',
+      chart: ch({
+        seed: 23, n: 12, path: [9980, 10040, 10010, 10050],
+        lines: [{ role: 'resistance', value: 10100, from: 0, to: 15, label: '저항선' }],
+        pattern: [{ o: 0.05, h: 0.75, l: 0, c: 0.6, v: 0.45 }],
+        next: [{ o: 0, h: 0.05, l: -0.85, c: -0.75, v: 1.6 }]
+      }),
+      options: ['가짜 돌파 — 거래량 없는 돌파는 다시 내려온다', '진짜 돌파 — 바로 추격 매수', '세력의 매집 신호', '신고가 갱신이 확정됐다'],
+      answer: 0,
+      why: '돌파했는데 거래량이 없다면 그건 돌파가 아니라 <b>속임수</b>예요. 진짜 돌파는 거래량이 터집니다. 안 터지면 다시 내려오는 경우가 많으니, <b>거래량 없는 돌파는 무조건 의심</b>하세요.',
+      key: '거래량 없는 돌파 = 가짜 돌파 (#33).',
+      rule: '#33 저항선 돌파 + 거래량 없음 = 가짜 돌파', revealLabel: '정답 · 가짜 돌파 (다시 내려온다)'
+    }
+  );
+
+  /* =========================================================
+     🟡 중급 — PART 5~6 + 장대양봉 뒤 음봉 5패턴
+     ========================================================= */
+  D.questions.push(
+    {
+      id: 'm01', level: 'intermediate', tag: '중급 #1', hlBack: 0,
+      title: '거래량 3배 + 전고점 돌파를 동시에 한 이 양봉의 정체는?',
+      chart: ch({
+        seed: 31, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        lines: [{ role: 'resistance', value: 'maxHigh:0-9', from: 0, to: 14, label: '전고점' }],
+        pattern: [{ o: 0.05, h: 1.35, l: -0.05, c: 1.25, v: 3.2 }],
+        next: [{ o: 0, h: 0.1, l: -0.35, c: -0.25, v: 0.6 }]
+      }),
+      options: ['기준봉 — 눌림목 매매의 출발점', '분배봉 — 세력이 넘기는 중', '허봉 — 개인이 올린 것', '도지 — 방향 미결정'],
+      answer: 0,
+      why: '큰 양봉이 나왔다고 다 기준봉이 아니에요. <b>거래량 3배 이상 + 전고점 돌파</b>, 이 두 가지가 없으면 가짜입니다. 이 캔들은 둘 다 갖췄으니 <b>기준봉</b> — 앞으로의 눌림목 매매가 이 캔들을 기준으로 시작됩니다.',
+      key: '기준봉 = 거래량 3배 + 전고점 돌파 (#35).',
+      rule: '#35 기준봉 식별법', revealLabel: '정답 · 기준봉 (거래량 3배 + 전고점 돌파)'
+    },
+    {
+      id: 'm02', level: 'intermediate', tag: '중급 #2', hlBack: null,
+      title: '기준봉 다음 날부터 이렇게 흘러갑니다. 지금 이 자리는?',
+      sub: '음봉이 3일 연속 나왔지만, 거래량 막대가 갈수록 짧아지고 있어요.',
+      chart: ch({
+        seed: 32, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        lines: [{ role: 'resistance', value: 'maxHigh:0-9', from: 0, to: 15, label: '전고점' }],
+        pattern: [
+          { o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.0 },
+          { o: 0.02, h: 0.1, l: -0.3, c: -0.22, v: 0.55 },
+          { o: 0, h: 0.12, l: -0.35, c: -0.28, v: 0.42 },
+          { o: 0, h: 0.15, l: -0.3, c: -0.2, v: 0.33 }
+        ],
+        next: [{ o: 0, h: 0.75, l: -0.05, c: 0.65, v: 2.4 }]
+      }),
+      options: ['거래량 줄고 이평선 지지 = 진짜 눌림목, 진입 후보', '거래량이 줄었으니 세력이 도망가는 중', '눌림목이 아니라 하락 전환', '기준봉 당일처럼 지금 추격 매수해야 한다'],
+      answer: 0,
+      why: '기준봉 뒤 <b>거래량이 줄면서</b> 이평선 위에서 버티면 진짜 눌림목이에요. 팔 사람이 다 팔아야 거래량이 사라지고, <b>거래량이 바닥을 찍는 순간</b>이 진입 자리입니다. 단, 기준봉 <b>당일</b>에 사는 건 추격매수예요.',
+      key: '거래량 감소 + 이평선 지지 = 진입 자리 (#36·#39).',
+      rule: '#36 기준봉 후 눌림목 — 거래량 감소 패턴', revealLabel: '정답 · 진짜 눌림목 (거래량 마름)'
+    },
+    {
+      id: 'm03', level: 'intermediate', tag: '중급 #3', hlBack: null,
+      title: '눌림목처럼 보이지만 5일선을 깼고 거래량도 늘었습니다. 이건?',
+      chart: ch({
+        seed: 33, n: 12, path: [9900, 10020, 9980, 10040, 9990], ma: [5, 20],
+        pattern: [
+          { o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.0 },
+          { o: 0, h: 0.05, l: -0.5, c: -0.45, v: 1.6 },
+          { o: 0, h: 0.05, l: -0.6, c: -0.5, v: 1.8 },
+          { o: 0, h: 0.04, l: -0.7, c: -0.65, v: 2.0 }
+        ],
+        next: [{ o: 0, h: 0.1, l: -0.6, c: -0.5, v: 1.9 }]
+      }),
+      options: ['눌림목 실패 — 이평선 밑으로 가면 그냥 하락', '오히려 좋은 매수 기회', '눌림목 기간이 짧아 추세가 강하다', '기준봉이 다시 나올 것이다'],
+      answer: 0,
+      why: '눌림목인데 <b>거래량이 안 줄면</b> 그건 눌림목이 아니라 도망치는 거예요. 이평선은 세력이 지키는 마지노선 — 밑으로 빠지면 눌림목이 아니라 <b>하락</b>입니다. 전저점까지 깨면 손절하고 다음 자리를 기다려야 해요.',
+      key: '이평선 밑으로 가면 눌림목이 아니라 하락 (#37·#43).',
+      rule: '#37 눌림목 진짜 vs 가짜 — 이평선 지지 여부', revealLabel: '정답 · 눌림목 실패 (이평선 이탈)'
+    },
+    {
+      id: 'm04', level: 'intermediate', tag: '중급 #4', hlBack: 0,
+      title: '눌림목 끝에서 이 캔들이 나왔습니다. 진입해도 될까요?',
+      sub: '거래량이 말라붙다가, 마지막 캔들에서 다시 터졌어요.',
+      chart: ch({
+        seed: 34, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [
+          { o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.0 },
+          { o: 0.02, h: 0.1, l: -0.3, c: -0.22, v: 0.5 },
+          { o: 0, h: 0.15, l: -0.3, c: -0.2, v: 0.34 },
+          { o: 0, h: 0.6, l: -0.05, c: 0.55, v: 2.2 }
+        ],
+        next: [{ o: 0, h: 0.7, l: -0.05, c: 0.6, v: 1.8 }]
+      }),
+      options: ['3중 확인 완료 — 진입 자리', '아직 확인이 안 됐으니 대기', '풀매수로 들어간다', '손절 없이 진입한다'],
+      answer: 0,
+      why: '<b>거래량 감소 + 이평선 지지 + 양봉 출현</b>, 이 3개가 겹쳐야 눌림목 끝으로 인정합니다. 셋 중 하나라도 빠지면 감매매예요. 3중 확인이 끝났다면 이제 <b>손절가·목표가·비중</b>을 정해서 들어갑니다.',
+      key: '3중 확인 없이 진입하면 감매매 (#44).',
+      rule: '#44 눌림목 끝 판단법 — 3중 확인', revealLabel: '정답 · 3중 확인 완료'
+    },
+    {
+      id: 'm05', level: 'intermediate', tag: '중급 #5 · 5패턴', hlBack: 0,
+      title: '장대양봉 뒤에 이 음봉이 붙었습니다. 5가지 패턴 중 어느 것?',
+      chart: ch({
+        seed: 35, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [{ o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.1 }, { o: 0.03, h: 0.12, l: -0.28, c: -0.2, v: 0.7 }],
+        next: [{ o: 0, h: 0.8, l: -0.05, c: 0.7, v: 2.6 }]
+      }),
+      options: ['건강한 숨고르기 — 작은 음봉, 추가 상승 가능성 가장 높음', '흑운형 — 매도세 경계', '갭상승 후 별형 — 변곡점', '전고점 돌파 테스트 — 윗꼬리 음봉'],
+      answer: 0,
+      why: '음봉 몸통이 작고, 윗꼬리도 전날 고가를 넘지 않았어요. 가벼운 차익실현만 나오고 <b>매수세가 그대로 살아있는</b> 모양 — 5가지 중 가장 건강한 숨고르기입니다. 다음 날 양봉이 나오면 추세 지속이 확인돼요.',
+      key: '몸통 작고 윗꼬리 짧은 음봉 = 건강한 숨고르기.',
+      rule: '5패턴 ① (기준봉 눌림목 #36)', revealLabel: '정답 · ① 건강한 숨고르기'
+    },
+    {
+      id: 'm06', level: 'intermediate', tag: '중급 #6 · 5패턴', hlBack: 0,
+      title: '음봉의 윗꼬리가 전고점을 뚫었다가 밀렸습니다. 이 모양은?',
+      chart: ch({
+        seed: 36, n: 11, path: [9880, 10030, 9960, 10020, 9980],
+        lines: [{ role: 'resistance', value: 'maxHigh:0-9', from: 0, to: 13, label: '전고점' }],
+        pattern: [{ o: 0.05, h: 1.15, l: -0.05, c: 1.1, v: 2.8 }, { o: 0.06, h: 0.75, l: -0.15, c: -0.1, v: 1.0 }],
+        next: [{ o: 0, h: 0.5, l: -0.1, c: 0.4, v: 1.5 }]
+      }),
+      options: ['전고점 돌파 테스트 — 위 매물 확인, 다음 날 회복 여부가 관건', '건강한 숨고르기 — 작은 음봉', '양봉 중심값 위 무난한 눌림목', '갭상승 후 별형'],
+      answer: 0,
+      why: '몸통 위치는 건강한 숨고르기처럼 좋은데, <b>윗꼬리가 전날 고가를 훌쩍 뚫었다가 밀렸어요</b>. 장중 돌파 시도는 좋았지만 위쪽 매물을 확인한 모습입니다. 다음 날 그 윗꼬리를 <b>다시 잡아먹어 주는지</b>가 관건이에요.',
+      key: '윗꼬리로 전고점 테스트 → 다음 날 회복 여부를 봐라.',
+      rule: '5패턴 ② (전고점 매물대 #19)', revealLabel: '정답 · ② 전고점 돌파 테스트'
+    },
+    {
+      id: 'm07', level: 'intermediate', tag: '중급 #7 · 5패턴', hlBack: 0,
+      title: '음봉 몸통이 장대양봉 중심값(절반) 위에서 끝났습니다. 이건?',
+      chart: ch({
+        seed: 37, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [{ o: 0.05, h: 1.3, l: -0.05, c: 1.15, v: 3.0 }, { o: 0.05, h: 0.1, l: -0.55, c: -0.45, v: 1.1 }],
+        next: [{ o: 0, h: 0.4, l: -0.2, c: 0.3, v: 1.4 }]
+      }),
+      options: ['무난한 눌림목 — 절반 위에서 버티면 추세 유지', '흑운형 — 매도 우위', '건강한 숨고르기와 완전히 같다', '눌림목 실패 — 즉시 손절'],
+      answer: 0,
+      why: '음봉 몸통이 앞의 두 패턴보다 커졌지만, <b>장대양봉의 절반(중심값) 위</b>에서 버텼어요. 아직 추세가 꺾였다기보다 <b>무난한 눌림</b>입니다. 절반 아래로 내려가면 그때부터는 4번(경계)으로 봐야 해요.',
+      key: '중심값 위에서 버티면 추세 유지 — 아니면 경계.',
+      rule: '5패턴 ③ (중심값 지지)', revealLabel: '정답 · ③ 무난한 눌림목'
+    },
+    {
+      id: 'm08', level: 'intermediate', tag: '중급 #8 · 5패턴', hlBack: 0,
+      title: '윗꼬리로 고점을 찍고, 음봉이 장대양봉 절반 이상을 파고들었습니다.',
+      chart: ch({
+        seed: 38, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [{ o: 0.05, h: 1.25, l: -0.05, c: 1.15, v: 3.0 }, { o: 0.15, h: 0.45, l: -0.95, c: -0.88, v: 1.9 }],
+        next: [{ o: 0, h: 0.1, l: -0.7, c: -0.6, v: 1.6 }]
+      }),
+      options: ['흑운형 — 매도 압력이 강하다, 단기 고점 경계', '무난한 눌림목', '건강한 숨고르기', '갭상승 후 별형'],
+      answer: 0,
+      why: '음봉이 전날 종가 <b>위에서 시작해 절반 이상을 파고들었어요</b>. 흑운형(다크 클라우드) 느낌으로, 매도 압력이 꽤 세게 나온 겁니다. 다음 날 <b>저점이 밀리면</b> 단기 고점 신호로 봐야 해요.',
+      key: '절반 이상 파고든 음봉 = 흑운형, 매도세 경계.',
+      rule: '5패턴 ④ (흑운형)', revealLabel: '정답 · ④ 흑운형 (매도세 경계)'
+    },
+    {
+      id: 'm09', level: 'intermediate', tag: '중급 #9 · 5패턴', hlBack: 0,
+      title: '전날 양봉 위로 갭을 띄우고, 위에서 작은 음봉이 떴습니다. 이건?',
+      chart: ch({
+        seed: 39, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [{ o: 0.05, h: 1.25, l: -0.05, c: 1.15, v: 2.9 }, { o: 0.5, h: 0.62, l: 0.38, c: 0.45, v: 1.7 }],
+        next: [{ o: 0, h: 0.3, l: -0.35, c: 0.02, v: 1.1 }]
+      }),
+      options: ['갭상승 후 별형 — 변곡점, 다음 날 캔들이 방향을 정한다', '흑운형 — 매도세 경계', '무난한 눌림목', '전고점 돌파 테스트'],
+      answer: 0,
+      why: '전날 양봉 위로 <b>갭을 띄워 시작</b>해서 위에서 작은 음봉이 떴어요. 다음 날 양봉으로 이어지면 강한 추가 랠리, 반대로 <b>갭을 메우며 장대음봉</b>이 나오면 석별형(하락 반전)이 됩니다. 다섯 중 가장 방향이 갈리는 자리예요.',
+      key: '갭상승 후 별형 = 변곡점, 다음 날 캔들이 답.',
+      rule: '5패턴 ⑤ (갭상승 별형)', revealLabel: '정답 · ⑤ 갭상승 후 별형'
+    },
+    {
+      id: 'm10', level: 'intermediate', tag: '중급 #10', hlBack: null,
+      title: '5일선이 20일선을 뚫었습니다. 이 골든크로스는?',
+      sub: '교차는 나왔는데, 거래량 막대는 평소와 다를 게 없어요.',
+      chart: ch({
+        seed: 40, n: 24, ma: [5, 20], noise: 0.3, path: [10300, 10150, 10050, 10050, 10150],
+        next: [{ o: 0, h: 0.1, l: -0.6, c: -0.5, v: 1.2 }]
+      }),
+      options: ['거래량이 없어 속임수 가능성 — 확인이 필요하다', '무조건 진짜 — 바로 매수', '거래량과는 무관하다', '죽음의 크로스다'],
+      answer: 0,
+      why: '골든크로스가 나왔다고 무조건 사는 건 초보예요. <b>거래량이 터져야 진짜</b> 골든크로스입니다. 이평선 교차만 보고 들어가면 당하고, 거래량까지 확인해야 삽니다.',
+      key: '이평선 교차 + 거래량, 둘 다 봐야 진짜 (#46).',
+      rule: '#46 골든크로스 진짜 vs 속임수', revealLabel: '정답 · 거래량 없는 교차 (의심)'
+    },
+    {
+      id: 'm11', level: 'intermediate', tag: '중급 #11', hlBack: 0,
+      title: '전고점을 찍고 윗꼬리로 밀렸습니다. 거래량은 평소 수준. 판단은?',
+      chart: ch({
+        seed: 41, n: 12, path: [9900, 10040, 9980, 10060, 10040],
+        lines: [{ role: 'resistance', value: 10120, from: 0, to: 12, label: '전고점' }],
+        pattern: [{ o: 0.1, h: 0.9, l: -0.25, c: -0.2, v: 1.1 }],
+        next: [{ o: 0, h: 0.1, l: -0.8, c: -0.7, v: 1.7 }]
+      }),
+      options: ['매물대 테스트 실패 — 거래량 없으면 속임수로 본다', '세력 매집 완료 — 풀매수', '지지선 확인 — 매수', '전고점 돌파 확정'],
+      answer: 0,
+      why: '전고점에서 윗꼬리로 밀렸다는 건 <b>위 매물을 확인</b>한 것. 여기에 거래량까지 평소 수준이라면 돌파 의지가 약한 겁니다. <b>종가가 전고점 위로 안착</b>하는지, 다음 날 윗꼬리를 회복하는지를 봐야 해요.',
+      key: '전고점 + 윗꼬리 + 거래량 없음 = 돌파 실패 쪽.',
+      rule: '#35·#33 (돌파의 진위)', revealLabel: '정답 · 매물대 테스트 실패'
+    },
+    {
+      id: 'm12', level: 'intermediate', tag: '중급 #12', hlBack: null,
+      title: '갭으로 뛴 뒤 갭 구간까지 눌렸습니다. 거래량은 줄고 있어요.',
+      chart: ch({
+        seed: 42, n: 12, path: [9900, 10000, 9960, 9990, 9980],
+        pattern: [
+          { o: 0.4, h: 1.0, l: 0.35, c: 0.9, v: 2.6 },
+          { o: 0, h: 0.12, l: -0.5, c: -0.4, v: 0.9 },
+          { o: 0, h: 0.08, l: -0.45, c: -0.35, v: 0.6 }
+        ],
+        next: [{ o: 0, h: 0.6, l: -0.05, c: 0.5, v: 1.8 }]
+      }),
+      options: ['갭 지지 확인 자리 — 거래량 줄면 매수 후보', '갭하락 시작 — 즉시 손절', '눌림목이 아니라 하락 전환', '의미 없는 자리'],
+      answer: 0,
+      why: '갭으로 뛴 종목이 <b>갭 구간까지 눌린 뒤 거래량이 줄며 버티면</b> 지지 확인 자리입니다. 갭을 완전히 메우고 아래로 마감하면 그때는 실패 — <b>갭 하단 종가 이탈</b>을 손절 기준으로 잡아요.',
+      key: '갭 지지 + 거래량 감소 = 눌림 매수 후보.',
+      rule: '#36·#39 (눌림목 확인)', revealLabel: '정답 · 갭 지지 확인'
+    },
+    {
+      id: 'm13', level: 'intermediate', tag: '중급 #13', hlBack: null,
+      title: '이 자리에서 진입하기 전, 반드시 정해야 하는 3가지는?',
+      sub: '기준봉 → 눌림목 → 3중 확인까지 끝난 자리입니다.',
+      chart: ch({
+        seed: 43, n: 12, path: [9900, 10020, 9980, 10040, 9990],
+        pattern: [
+          { o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.0 },
+          { o: 0.02, h: 0.1, l: -0.3, c: -0.22, v: 0.5 },
+          { o: 0, h: 0.15, l: -0.3, c: -0.2, v: 0.34 }
+        ],
+        next: [{ o: 0, h: 0.6, l: -0.05, c: 0.55, v: 2.0 }]
+      }),
+      options: ['진입가 · 손절가 · 목표가', '목표가 · 보유 기간 · 뉴스', '차트 · 거래량 · 재료', '진입가 · 수수료 · 세금'],
+      answer: 0,
+      why: '매매 계획의 3요소는 <b>진입가, 손절가, 목표가</b>입니다. 셋 다 정하고 들어가면 매매, 하나라도 빠지면 도박이에요. 특히 <b>손절가를 먼저</b> 정하세요 — 손절가가 곧 진입의 자격입니다.',
+      key: '진입가·손절가·목표가, 3개면 충분하다 (#50).',
+      rule: '#50 매매 계획의 3 요소', revealLabel: '정답 · 진입가 · 손절가 · 목표가'
+    }
+  );
+
+  /* =========================================================
+     🔴 상급 — PART 7~8 (파동 · 확률 · 실전 판단)
+     ========================================================= */
+  D.questions.push(
+    {
+      id: 'a01', level: 'advanced', tag: '상급 #1 · 파동', hlBack: 0,
+      title: '지금은 4파 조정 구간입니다. 다음에 올 파동과 대응은?',
+      sub: '1파 시작 → 3파 폭발까지 끝났고, 지금은 조정 중이에요.',
+      chart: ch({
+        seed: 51, noise: 0.22, ma: [],
+        legs: [{ to: 10000, n: 3 }, { to: 10080, n: 3 }, { to: 10030, n: 2 }, { to: 10200, n: 4 }, { to: 10150, n: 3 }],
+        markers: [{ i: 2, text: '1' }, { i: 5, text: '2', pos: 'below' }, { i: 9, text: '3' }, { i: 12, text: '4', pos: 'below' }],
+        next: [{ o: 0, h: 0.9, l: -0.05, c: 0.8, v: 2.2 }]
+      }),
+      options: ['5파 상승 — 끝물이라 짧게 먹고 나온다', '3파 폭발 — 길게 실을 수 있다', 'C파 하락 — 즉시 손절', 'B파 반등 — 함정이다'],
+      answer: 0,
+      why: '1파는 시작, <b>3파가 폭발</b>, 5파는 <b>끝물</b>입니다. 4파 조정 뒤에 오는 건 5파지만, 3파만큼 크지 않고 되돌림도 빠릅니다. 3파를 타야 하고, <b>5파에 들어가면 물린다</b>는 걸 기억하세요.',
+      key: '3파를 타라. 5파는 끝물 — 짧게 대응 (#88).',
+      rule: '#88 충격파 5파 — 각 자리의 의미', revealLabel: '정답 · 5파 (끝물, 짧게)'
+    },
+    {
+      id: 'a02', level: 'advanced', tag: '상급 #2 · 파동', hlBack: 0,
+      title: 'A파 하락 뒤 B파 반등이 나왔습니다. 이 B파는?',
+      chart: ch({
+        seed: 52, noise: 0.22, ma: [],
+        legs: [{ to: 10050, n: 2 }, { to: 9950, n: 2 }, { to: 10300, n: 3 }, { to: 10200, n: 2 }, { to: 10450, n: 2 }, { to: 10150, n: 3 }, { to: 10300, n: 2 }],
+        markers: [{ i: 10, text: '5' }, { i: 13, text: 'A', pos: 'below' }, { i: 15, text: 'B' }],
+        next: [{ o: 0, h: 0.1, l: -1.0, c: -0.9, v: 2.4 }]
+      }),
+      options: ['B파 함정 — 속지 말고 C파 끝을 기다린다', '새 상승 추세의 시작 — 매수', '3파의 시작 — 길게 실을 자리', '눌림목 매수 절호의 기회'],
+      answer: 0,
+      why: '조정파는 A(하락) → B(반등) → C(하락)로 움직입니다. <b>B파에서 속고, C파 끝에서 바닥이 잡히죠.</b> B파 반등은 탈출 기회일 뿐 매수 자리가 아닙니다.',
+      key: 'B파의 함정에 속지 마라. C파 끝이 기회 (#89).',
+      rule: '#89 조정파 ABC — 각 자리의 의미', revealLabel: '정답 · B파 함정 (C파 대기)'
+    },
+    {
+      id: 'a03', level: 'advanced', tag: '상급 #3 · 다이버전스', hlBack: 0,
+      title: '가격은 고점을 높이는데 거래량은 줄고 있습니다. 이 신호는?',
+      chart: ch({
+        seed: 53, noise: 0.2, ma: [],
+        legs: [{ to: 10020, n: 3, vol: 1.7 }, { to: 9980, n: 2, vol: 0.8 }, { to: 10140, n: 3, vol: 1.1 }, { to: 10070, n: 2, vol: 0.7 }, { to: 10260, n: 3, vol: 0.5 }],
+        markers: [{ i: 7, text: '①' }, { i: 12, text: '②' }],
+        next: [{ o: 0, h: 0.1, l: -0.9, c: -0.8, v: 2.0 }]
+      }),
+      options: ['다이버전스 — 상승 힘 약화, 추세 전환 경계', '거래량은 원래 고점에서 줄어드는 것 — 무시', '세력 매집 신호 — 매수', '추가 상승 가속 신호'],
+      answer: 0,
+      why: '고점은 높아지는데 그 고점을 만든 <b>힘(거래량)은 줄어드는</b> 모양 — 다이버전스입니다. 가격과 힘이 어긋나면 추세가 오래 못 갑니다. 거래량은 거짓말을 안 하니까요(#15).',
+      key: '가격은 신고가, 거래량은 감소 = 힘 빠짐.',
+      rule: '#15·#85 (거래량과 추세 전환)', revealLabel: '정답 · 다이버전스 (힘 약화)'
+    },
+    {
+      id: 'a04', level: 'advanced', tag: '상급 #4 · 세력', hlBack: 0,
+      title: '고점에서 거래량이 터진 음봉이 나왔습니다. 이건?',
+      chart: ch({
+        seed: 54, noise: 0.22, ma: [5],
+        legs: [{ to: 10000, n: 3 }, { to: 10150, n: 3 }, { to: 10300, n: 3 }],
+        pattern: [{ o: 0.1, h: 0.5, l: -1.0, c: -0.9, v: 3.6 }],
+        next: [{ o: 0, h: 0.1, l: -0.8, c: -0.7, v: 2.2 }]
+      }),
+      options: ['세력 이탈(분배) — 고점 거래량 폭발 음봉은 경계', '건강한 눌림목 — 매수 기회', '매집 신호 — 바닥이다', '셀링 클라이맥스 — 바닥 후보'],
+      answer: 0,
+      why: '고점에서 거래량이 터지면 매수세가 아니라 <b>큰손이 물량을 넘기는</b> 중일 수 있어요. 특히 <b>음봉 + 거래량 폭발</b>은 분배의 전형입니다. 반대로 바닥에서 터지는 거래량은 매집 — 위치가 반대라는 걸 기억하세요.',
+      key: '꼭대기 거래량 폭발 = 분배, 바닥은 매집 (#13·#83).',
+      rule: '#13 꼭대기에서 거래량 터지면 = 누군가 빠지고 있다', revealLabel: '정답 · 세력 이탈(분배)'
+    },
+    {
+      id: 'a05', level: 'advanced', tag: '상급 #5 · 피보나치', hlBack: 0,
+      title: '상승 후 조정이 61.8%까지 밀렸습니다. 추세는?',
+      chart: ch({
+        seed: 55, noise: 0.18, ma: [],
+        legs: [{ to: 10000, n: 2 }, { to: 10500, n: 6 }],
+        lines: [
+          { role: 'fib', value: 'fib.382:0-7', from: 0, to: 11, label: '38.2%' },
+          { role: 'fib', value: 'fib.5:0-7', from: 0, to: 11, label: '50%' },
+          { role: 'fib', value: 'fib.618:0-7', from: 0, to: 11, label: '61.8%' }
+        ],
+        pattern: [{ o: 0, h: 0.1, l: -1.0, c: -0.95, v: 1.2 }, { o: 0, h: 0.1, l: -1.05, c: -1.0, v: 1.1 }, { o: 0, h: 0.05, l: -1.1, c: -1.05, v: 1.0 }],
+        next: [{ o: 0, h: 0.7, l: -0.1, c: 0.6, v: 1.6 }]
+      }),
+      options: ['추세가 약해진 것 — 61.8%까지 밀리면 약하다', '추세가 매우 강한 것 — 오히려 좋다', '되돌림은 상관없다', '61.8%는 무조건 반등 자리다'],
+      answer: 0,
+      why: '피보나치 되돌림의 핵심은 <b>38.2% / 50% / 61.8%</b> 세 숫자예요. <b>38.2%에서 멈추면 강한 추세</b>, 61.8%까지 밀리면 약한 추세입니다. 61.8%가 깨지면 되돌림이 아니라 추세 전환으로 봐야 해요.',
+      key: '38.2%에서 멈추면 강, 61.8%까지 밀리면 약 (#80).',
+      rule: '#80 피보나치 되돌림 기초', revealLabel: '정답 · 약해진 추세 (61.8% 되돌림)'
+    },
+    {
+      id: 'a06', level: 'advanced', tag: '상급 #6 · 바닥', hlBack: 0,
+      title: '폭락 끝에 거래량이 최대로 터졌습니다. 이건?',
+      chart: ch({
+        seed: 56, noise: 0.24, ma: [5],
+        legs: [{ to: 10300, n: 3 }, { to: 10100, n: 3 }, { to: 9900, n: 3 }, { to: 9750, n: 2 }],
+        pattern: [{ o: 0.05, h: 0.1, l: -1.9, c: -1.3, v: 4.6 }],
+        next: [{ o: 0, h: 0.8, l: -0.1, c: 0.7, v: 2.0 }]
+      }),
+      options: ['셀링 클라이맥스 — 팔 사람이 다 판 근처, 바닥 후보', '추가 폭락 확정', '세력 매집이 확정됐다', '아무 의미 없는 거래량'],
+      answer: 0,
+      why: '패닉셀이 극에 달하면 <b>거래량이 최대로 터집니다</b>. 그건 팔 사람이 다 팔았다는 뜻 — 공포가 최고조일 때가 <b>기회에 가장 가까운 순간</b>입니다. 단, 확인은 다음 날부터(거래량 줄며 양봉).',
+      key: '공포 최고조 = 바닥 근처 (#84).',
+      rule: '#84 셀링 클라이맥스', revealLabel: '정답 · 셀링 클라이맥스 (바닥 후보)'
+    },
+    {
+      id: 'a07', level: 'advanced', tag: '상급 #7 · 전환', hlBack: 0,
+      title: '상승 각도가 꺾이고 고점이 낮아지기 시작했습니다. 지금 단계는?',
+      chart: ch({
+        seed: 57, noise: 0.18, ma: [5],
+        legs: [{ to: 10000, n: 2 }, { to: 10250, n: 4 }, { to: 10350, n: 4 }, { to: 10380, n: 3 }],
+        pattern: [{ o: 0, h: 0.1, l: -0.9, c: -0.8, v: 1.5 }],
+        next: [{ o: 0, h: 0.1, l: -0.8, c: -0.7, v: 1.6 }]
+      }),
+      options: ['감속 → 전환 단계 — 비중 줄이고 대기', '가속 단계 — 지금 풀매수', '3파 — 가장 강한 구간', '아직 아무 일도 없다'],
+      answer: 0,
+      why: '추세는 갑자기 바뀌지 않고 <b>감속 → 전환 → 가속</b> 3단계를 거칩니다. 각도가 눕고 고점이 낮아지는 지금은 감속에서 전환으로 넘어가는 구간 — <b>새 추세가 확인될 때까지 비중을 줄이는</b> 자리예요.',
+      key: '감속 → 전환 → 가속, 3단계로 바뀐다 (#85).',
+      rule: '#85 추세 전환의 3 단계', revealLabel: '정답 · 감속→전환 단계'
+    },
+    {
+      id: 'a08', level: 'advanced', tag: '상급 #8 · 실패', hlBack: 0,
+      title: '전저점 이탈 + 거래량 재폭발 + 이평선 하향이 겹쳤습니다.',
+      sub: '파동 매매로 진입해 둔 자리입니다. 어떻게 할까요?',
+      chart: ch({
+        seed: 58, noise: 0.2, ma: [5, 20],
+        legs: [{ to: 10000, n: 2 }, { to: 10300, n: 4 }, { to: 10200, n: 2 }, { to: 10400, n: 3 }],
+        pattern: [{ o: 0, h: 0.05, l: -1.5, c: -1.45, v: 2.8 }, { o: 0, h: 0.05, l: -1.1, c: -1.0, v: 2.6 }],
+        next: [{ o: 0, h: 0.1, l: -0.7, c: -0.6, v: 2.2 }]
+      }),
+      options: ['파동 실패 — 손절하고 다음 자리를 기다린다', '물타기로 평균 단가를 낮춘다', '더 기다려 본다', '추가 매수로 비중을 늘린다'],
+      answer: 0,
+      why: '전저점 이탈, 거래량 재폭발, 이평선 하향 전환 — 이 3가지가 파동 실패 신호입니다. <b>실패를 빨리 인정하는 게 실력</b>이에요. 손절은 지는 게 아니라 살아남는 것(#25·#68).',
+      key: '실패 3신호가 나오면 자르고 다음 자리 (#78).',
+      rule: '#78 파동이 실패하는 경우', revealLabel: '정답 · 파동 실패 (손절)'
+    },
+    {
+      id: 'a09', level: 'advanced', tag: '상급 #9 · 세력', hlBack: 0,
+      title: '바닥에서 거래량이 터지며 횡보가 이어집니다. 이 구간은?',
+      chart: ch({
+        seed: 59, noise: 0.24, ma: [5],
+        legs: [{ to: 10000, n: 2 }, { to: 9700, n: 4 }],
+        pattern: [
+          { o: 0, h: 0.25, l: -0.2, c: 0.15, v: 2.4 },
+          { o: 0, h: 0.15, l: -0.3, c: -0.1, v: 0.9 },
+          { o: 0, h: 0.3, l: -0.15, c: 0.2, v: 2.6 },
+          { o: 0, h: 0.12, l: -0.25, c: -0.05, v: 0.8 }
+        ],
+        next: [{ o: 0, h: 0.8, l: -0.05, c: 0.7, v: 3.0 }]
+      }),
+      options: ['매집 구간 — 세력이 모으는 중, 같이 살 자리', '분배 구간 — 넘기는 중', '상승 3파 — 폭발 직전', '셀링 클라이맥스 — 패닉'],
+      answer: 0,
+      why: '세력은 <b>바닥에서 모으고 → 올리고 → 꼭대기에서 넘깁니다</b>. 바닥권에서 거래량이 반복해서 터지는데 가격이 안 밀리면 매집 신호예요. 매집 구간에서 같이 사고, 분배 구간에서 먼저 빠지는 게 순서입니다.',
+      key: '바닥 횡보 + 거래량 반복 = 매집 (#83).',
+      rule: '#83 세력의 매집→상승→분배 사이클', revealLabel: '정답 · 매집 구간'
+    },
+    {
+      id: 'a10', level: 'advanced', tag: '상급 #10 · 손익비', hlBack: null,
+      title: '진입 10,000 · 손절 9,700 · 목표 10,600. 이 매매는?',
+      sub: '지금 가격은 10,000원 부근에서 횡보 중입니다.',
+      chart: ch({
+        seed: 60, noise: 0.12, ma: [],
+        path: [10000, 10020, 9980, 10010, 9990],
+        lines: [
+          { role: 'resistance', value: 10600, from: 0, to: 13, label: '목표 10,600', color: '#34d399' },
+          { role: 'support', value: 10000, from: 0, to: 13, label: '진입 10,000', color: '#f7dc8a' },
+          { role: 'support', value: 9700, from: 0, to: 13, label: '손절 9,700', color: '#fb7185' }
+        ],
+        next: [{ o: 0, h: 0.3, l: -0.1, c: 0.2, v: 1.2 }]
+      }),
+      options: ['손익비 1:2 — 규칙(1:2 이상)을 통과해 진입 가능', '손익비 1:0.5 — 진입 금지', '손익비 1:1 — 도박이다', '손익비를 계산할 수 없다'],
+      answer: 0,
+      why: '잃는 폭 300원, 먹는 폭 600원 → <b>손익비 1:2</b>입니다. 승률 50%라도 1:2면 수익이 나요. 10번 중 5번 져도 남은 5번이 두 배를 먹으니까요. <b>승률이 아니라 손익비</b>에 집착하세요.',
+      key: '손익비 1:2 이상만 진입 (#76).',
+      rule: '#76 손익비 1:2 이상만 진입하는 이유', revealLabel: '정답 · 손익비 1:2 (진입 가능)'
+    },
+    {
+      id: 'a11', level: 'advanced', tag: '상급 #11 · 수렴', hlBack: 0,
+      title: '이평선이 한 점으로 모인 뒤 이 캔들이 나왔습니다. 의미는?',
+      chart: ch({
+        seed: 61, noise: 0.12, ma: [5, 20], n: 26,
+        path: [10000, 10040, 9980, 10020, 9990, 10010, 10120],
+        pattern: [{ o: 0, h: 1.2, l: -0.05, c: 1.1, v: 3.0 }],
+        next: [{ o: 0, h: 0.7, l: -0.05, c: 0.6, v: 1.8 }]
+      }),
+      options: ['수렴 후 발산 — 에너지가 터진 자리, 추세 시작', '수렴은 아무 의미 없다', '이평선이 모이면 하락한다', '거래량이 없어서 실패한다'],
+      answer: 0,
+      why: '이평선이 한 점으로 모이는 건 <b>에너지 축적</b>, 그리고 터지는 건 <b>폭발</b>입니다. 볼린저밴드도 좁아질수록 다음 움직임이 커지죠. 수렴 종목은 관심종목에 넣어두고 <b>거래량 실린 발산</b>을 기다립니다.',
+      key: '수렴은 축적, 발산은 폭발 (#47·#48).',
+      rule: '#47 이평선 수렴 → 방향성 폭발', revealLabel: '정답 · 수렴 후 발산 (추세 시작)'
+    },
+    {
+      id: 'a12', level: 'advanced', tag: '상급 #12 · 3중 확인', hlBack: 0,
+      title: '피보나치 0.618 + 20일선 + 거래량 감소가 한 자리에서 겹쳤습니다.',
+      chart: ch({
+        seed: 62, noise: 0.16, ma: [20],
+        legs: [{ to: 9940, n: 5 }, { to: 10060, n: 5 }, { to: 10520, n: 10 }],
+        lines: [{ role: 'fib', value: 'fib.618:0-19', from: 0, to: 22, label: '0.618' }],
+        pattern: [{ o: 0, h: 0.1, l: -1.35, c: -1.3, v: 0.55 }, { o: 0, h: 0.1, l: -1.35, c: -1.3, v: 0.42 }, { o: 0, h: 0.08, l: -1.4, c: -1.35, v: 0.32 }],
+        next: [{ o: 0, h: 0.8, l: -0.1, c: 0.7, v: 2.2 }]
+      }),
+      options: ['3중 확인 자리 — 가장 확률 높은 진입 후보', '확률이 떨어지는 자리 — 피한다', '의미 없는 자리', '즉시 손절 자리'],
+      answer: 0,
+      why: '피보나치 레벨, 이평선 지지, 거래량 감소 — 셋이 동시에 겹치면 <b>확률이 가장 높은 자리</b>입니다. 이 3중 확인 없이 들어가면 확률이 뚝 떨어져요. 분석은 확률이고, 확률 높은 자리에서만 들어갑니다(#86).',
+      key: '피보나치 + 이평선 + 거래량 3중 확인 (#81).',
+      rule: '#81 피보나치+이평선+거래량 3 중 확인', revealLabel: '정답 · 3중 확인 자리'
+    },
+    {
+      id: 'a13', level: 'advanced', tag: '상급 #13 · 시간축', hlBack: null,
+      title: '일봉은 눌림목으로 예뻐 보입니다. 그런데 주봉은 하락추세입니다.',
+      sub: '큰 그림(주봉)에서 고점이 계속 낮아지는 중이에요.',
+      chart: ch({
+        seed: 63, noise: 0.2, ma: [5],
+        legs: [{ to: 9930, n: 3 }, { to: 10140, n: 4 }, { to: 10270, n: 4 }, { to: 10205, n: 3 }],
+        next: [{ o: 0, h: 0.4, l: -0.5, c: -0.1, v: 1.4 }]
+      }),
+      options: ['큰 추세를 거스르는 진입 — 비중을 줄이거나 피한다', '일봉만 보면 되니 그대로 진입', '주봉은 무시해도 된다', '풀매수로 들어간다'],
+      answer: 0,
+      why: '<b>월봉으로 큰 그림, 주봉으로 추세, 일봉으로 진입.</b> 큰 것부터 보고 작은 것으로 들어갑니다. 일봉만 보면 숲을 못 봐요. 상위 프레임이 하락이면 일봉 눌림목은 <b>반등 함정</b>이 되기 쉽습니다.',
+      key: '큰 것부터 보고 작은 것으로 들어간다 (#82).',
+      rule: '#82 다중 타임프레임 판단', revealLabel: '정답 · 상위 추세 역행 (피한다)'
+    }
+  );
+
+  /* =========================================================
+     📖 장대양봉 뒤 음봉 5가지 패턴 도감
+     ========================================================= */
+  var P_BASE = { seed: 71, n: 10, path: [9880, 10020, 9960, 10020, 9980], unit: 100, noise: 0.2, ma: [5] };
+  D.patterns = [
+    {
+      name: '① 건강한 숨고르기',
+      badge: '가장 건강', badgeCls: 'good',
+      miniLabel: '추가 상승 확률 가장 높음',
+      chart: ch(Object.assign({}, P_BASE, {
+        seed: 71,
+        pattern: [{ o: 0.05, h: 1.3, l: -0.05, c: 1.2, v: 3.1 }, { o: 0.03, h: 0.12, l: -0.28, c: -0.2, v: 0.7 }],
+        next: [{ o: 0, h: 0.8, l: -0.05, c: 0.7, v: 2.6 }]
+      })),
+      hlBack: 0,
+      body: '장대양봉 <b>상단 안에서</b> 몸통도 작고, 윗꼬리도 전날 고가를 넘지 않은 음봉. 가벼운 차익실현만 나오고 <b>매수세가 그대로 살아있다</b>는 뜻입니다.',
+      act: '거래량이 계속 마르면 눌림목 진입 후보. 다음 날 양봉이 나오면 추세 지속.'
+    },
+    {
+      name: '② 전고점 돌파 테스트 (윗꼬리)',
+      badge: '확인 필요', badgeCls: 'warn',
+      miniLabel: '위 매물 확인 — 다음 날이 관건',
+      chart: ch(Object.assign({}, P_BASE, {
+        seed: 72, n: 9,
+        path: [9880, 10030, 9960, 10020, 9980],
+        lines: [{ role: 'resistance', value: 'maxHigh:0-7', from: 0, to: 12, label: '전고점' }],
+        pattern: [{ o: 0.05, h: 1.15, l: -0.05, c: 1.1, v: 2.8 }, { o: 0.06, h: 0.8, l: -0.15, c: -0.1, v: 1.0 }],
+        next: [{ o: 0, h: 0.5, l: -0.1, c: 0.4, v: 1.5 }]
+      })),
+      hlBack: 0,
+      body: '몸통 위치는 좋은데 <b>윗꼬리가 전날 고가를 훌쩍 뚫었다가 밀린</b> 모양. 장중 돌파 시도는 좋았지만 위쪽 <b>매물(저항)을 확인</b>한 것입니다.',
+      act: '다음 날 그 윗꼬리를 다시 잡아먹는지 확인. 못 먹으면 단기 조정.'
+    },
+    {
+      name: '③ 양봉 중심값 위 무난한 눌림목',
+      badge: '중립', badgeCls: 'warn',
+      miniLabel: '절반 위에서 버티면 추세 유지',
+      chart: ch(Object.assign({}, P_BASE, {
+        seed: 73,
+        pattern: [{ o: 0.05, h: 1.3, l: -0.05, c: 1.15, v: 3.0 }, { o: 0.05, h: 0.1, l: -0.55, c: -0.45, v: 1.1 }],
+        next: [{ o: 0, h: 0.4, l: -0.2, c: 0.3, v: 1.4 }]
+      })),
+      hlBack: 0,
+      body: '음봉 몸통이 ①②보다 커졌지만 <b>장대양봉의 절반(중심값) 위</b>에서 마감. 아직 추세가 꺾였다기보다 <b>무난한 눌림</b>입니다.',
+      act: '중심값 위에서 거래량 줄며 버티면 유지, 절반 아래로 내려가면 흑운형(④)으로 격상.'
+    },
+    {
+      name: '④ 흑운형 — 매도세 경계',
+      badge: '경계', badgeCls: 'bad',
+      miniLabel: '절반 이상 파고들면 매도 우위',
+      chart: ch(Object.assign({}, P_BASE, {
+        seed: 74,
+        pattern: [{ o: 0.05, h: 1.25, l: -0.05, c: 1.15, v: 3.0 }, { o: 0.15, h: 0.45, l: -0.95, c: -0.88, v: 1.9 }],
+        next: [{ o: 0, h: 0.1, l: -0.7, c: -0.6, v: 1.6 }]
+      })),
+      hlBack: 0,
+      body: '음봉이 전날 종가 <b>위에서 시작해 절반 이상을 파고들었습니다</b>. 흑운형(다크 클라우드)으로, 매도 압력이 꽤 세게 나온 자리.',
+      act: '다음 날 저점이 밀리면 단기 고점 신호 — 신규 매수는 미루고 보유는 비중 축소 검토.'
+    },
+    {
+      name: '⑤ 갭상승 후 별형 — 변곡점',
+      badge: '변곡점', badgeCls: 'warn',
+      miniLabel: '다음 날 캔들이 방향을 결정',
+      chart: ch(Object.assign({}, P_BASE, {
+        seed: 75,
+        pattern: [{ o: 0.05, h: 1.25, l: -0.05, c: 1.15, v: 2.9 }, { o: 0.5, h: 0.62, l: 0.38, c: 0.45, v: 1.7 }],
+        next: [{ o: 0, h: 0.3, l: -0.35, c: 0.02, v: 1.1 }]
+      })),
+      hlBack: 0,
+      body: '전날 양봉 위로 <b>갭을 띄워 시작</b>해 위에서 작은 음봉(별형)이 뜬 모양. 방향이 갈리는 자리 — 다음 날 양봉이면 강한 랠리, <b>갭을 메우는 장대음봉</b>이면 석별형(하락 반전).',
+      act: '다음 날 캔들 하나로 승부. 갭 하단을 손절 기준으로 잡는다.'
+    }
+  ];
+
+  /* =========================================================
+     📖 핸드북 규칙 요약 (#1~#89)
+     ========================================================= */
+  D.rules = [
+    { n: 1, lv: 'b', t: '양봉 vs 음봉', d: '올라서 마감하면 양봉, 내려서 마감하면 음봉. 색이 아니라 방향을 본다.' },
+    { n: 2, lv: 'b', t: '몸통이 길면 힘이 세다', d: '작은 양봉 3개보다 장대양봉 1개. 캔들의 크기가 곧 힘이다.' },
+    { n: 3, lv: 'b', t: '윗꼬리가 길면 위에서 맞은 거다', d: '올라갔다 밀려 내려온 흔적 — 위에 적(매도)이 있다.' },
+    { n: 4, lv: 'b', t: '아랫꼬리가 길면 밑에서 버틴 거다', d: '빠졌다 다시 올라온 흔적 — 밑에 아군(매수)이 있다.' },
+    { n: 5, lv: 'b', t: '도지(십자형) = 눈치 보는 중', d: '시가와 종가가 거의 같다. 다음 날 방향이 결정된다.' },
+    { n: 6, lv: 'b', t: '캔들 하나로 하루의 심리가 보인다', d: '몸통은 결과, 꼬리는 과정. 이걸 읽는 게 차트 읽기의 시작.' },
+    { n: 7, lv: 'b', t: '장대양봉 vs 장대음봉', d: '하루 만에 판이 바뀌는 캔들. 하나가 추세를 바꾼다.' },
+    { n: 8, lv: 'b', t: '캔들 색깔보다 위치가 더 중요하다', d: '바닥 양봉은 반등 신호, 꼭대기 양봉은 마지막 불꽃.' },
+    { n: 9, lv: 'b', t: '거래량 있는 상승 vs 없는 상승', d: '거래량 없는 상승은 상승이 아니라 사기다.' },
+    { n: 10, lv: 'b', t: '거래량 터지면 = 큰손이 움직인 흔적', d: '개미가 만드는 거래량엔 한계가 있다. 비정상 거래량 = 큰손의 발자국.' },
+    { n: 11, lv: 'b', t: '거래량이 점점 줄면 = 에너지 모으는 중', d: '관심이 없는 게 아니다. 용수철이 압축되는 중.' },
+    { n: 12, lv: 'b', t: '바닥에서 거래량 터지면 = 누군가 줍고 있다', d: '바닥 거래량 폭발은 매집의 시작, 반등의 전조.' },
+    { n: 13, lv: 'b', t: '꼭대기에서 거래량 터지면 = 누군가 빠지고 있다', d: '고점 거래량 폭발은 분배의 시작, 하락의 전조.' },
+    { n: 14, lv: 'b', t: '평균 거래량의 3 배 이상 터지면 주목', d: '기준을 기억하고 3배를 봐라. 3배 = 이상 신호.' },
+    { n: 15, lv: 'b', t: '거래량은 거짓말을 안 한다', d: '캔들은 속일 수 있어도 거래량은 못 속인다.' },
+    { n: 16, lv: 'b', t: '장대양봉 + 거래량 3 배 = 세력이 움직였다', d: '거래량 없는 장대양봉은 개인이 올린 허봉.' },
+    { n: 17, lv: 'b', t: '지지선이 뭔지 — 바닥에 깔린 방석', d: '내려오다 딱 멈추는 자리. 뚫리면 추락한다.' },
+    { n: 18, lv: 'b', t: '저항선이 뭔지 — 천장에 붙은 유리벽', d: '올라가다 딱 막히는 자리. 뚫어야 다음 층으로 간다.' },
+    { n: 19, lv: 'b', t: '저항 뚫리면 지지가 된다', d: '돌파 후 되돌아와 지지하면 진짜 돌파. 이 원리로 차트 절반이 읽힌다.' },
+    { n: 20, lv: 'b', t: '상승추세 = 저점이 점점 높아진다', d: '고점이 높아지는 건 당연. 저점이 올라가는 게 핵심.' },
+    { n: 21, lv: 'b', t: '하락추세 = 고점이 점점 낮아진다', d: '저점이 낮아지는 건 당연. 고점이 내려가는 게 핵심.' },
+    { n: 22, lv: 'b', t: '지지/저항은 선이 아니라 구간이다', d: '몇 원 차이에 집착하면 자리를 놓친다.' },
+    { n: 23, lv: 'b', t: '상승추세에서 눌림이 오면 기회다', d: '추세가 살아있으면 눌림은 쉬어가는 것.' },
+    { n: 24, lv: 'b', t: '하락추세에서 반등이 오면 함정이다', d: '추세가 하락이면 반등은 탈출 기회일 뿐.' },
+    { n: 25, lv: 'b', t: '손절이 뭐고 왜 해야 하는지', d: '손절은 지는 게 아니라 살아남는 것.' },
+    { n: 26, lv: 'b', t: '손익비가 뭔지 — 잃는 거 1, 먹는 거 2', d: '승률 50%라도 손익비 1:2면 수익이 난다.' },
+    { n: 27, lv: 'b', t: '분할매수 = 한 번에 사면 안 되는 이유', d: '한 번에 100% 넣으면 틀렸을 때 끝이다.' },
+    { n: 28, lv: 'b', t: '물타기 vs 분할매수는 완전히 다르다', d: '“싸졌으니까”는 물타기, “자리가 왔으니까”는 분할매수.' },
+    { n: 29, lv: 'b', t: '매수 타이밍 = 올라갈 때가 아니라 눌릴 때', d: '추격매수 한 번이면 계좌가 한 달 아프다.' },
+    { n: 30, lv: 'b', t: '“감으로 사지 마라” 입문편', d: '감은 반복할 수 없다. 규칙은 반복된다.' },
+    { n: 31, lv: 'b', t: '매매일지를 쓰면 달라지는 것들', d: '진입 이유·결과·교훈, 3가지만 적어라.' },
+    { n: 32, lv: 'b', t: '추격매수가 왜 위험한지', d: '추격매수 = 꼭대기 입장권.' },
+    { n: 33, lv: 'b', t: '저항선 돌파 + 거래량 없음 = 가짜 돌파', d: '거래량 없는 돌파는 무조건 의심하라.' },
+    { n: 34, lv: 'b', t: '오르는 종목 쫓아가기 — 이미 늦었다', d: '쫓아가면 물리고, 기다리면 잡힌다.' },
+
+    { n: 35, lv: 'i', t: '기준봉 식별법 — 큰 양봉이 다 기준봉 아니다', d: '거래량 3배 이상 + 전 고점 돌파, 둘 다 있어야 진짜.' },
+    { n: 36, lv: 'i', t: '기준봉 후 눌림목 — 거래량 감소 패턴', d: '거래량이 줄어야 진짜 눌림목. 안 줄면 세력이 빠지는 것.' },
+    { n: 37, lv: 'i', t: '눌림목 진짜 vs 가짜 — 이평선 지지 여부', d: '이평선은 세력이 지키는 마지노선. 밑으로 가면 하락.' },
+    { n: 38, lv: 'i', t: '눌림목 기간이 짧을 때 vs 길 때', d: '3일은 강한 추세, 7일 이상은 충분한 소화.' },
+    { n: 39, lv: 'i', t: '눌림목에서 거래량이 말라붙어야 하는 이유', d: '팔 사람이 다 팔아야 거래량이 사라진다. 그 순간이 진입 자리.' },
+    { n: 40, lv: 'i', t: '눌림목 끝에서 양봉 터지면 = 진입 시그널', d: '거래량 말라붙다가 양봉과 함께 다시 터지는 자리.' },
+    { n: 41, lv: 'i', t: '매집봉 vs 분배봉 구분법', d: '같은 큰 양봉도 바닥이면 매집, 꼭대기면 분배.' },
+    { n: 42, lv: 'i', t: '기준봉 당일 쫓아가면 안 되는 이유', d: '세력은 눌림목에서 기다린다. 당일 매수는 추격매수.' },
+    { n: 43, lv: 'i', t: '눌림목 중 전저점을 깨면 하락이다', d: '전저점 이탈 = 눌림목 실패. 손절하고 다음 자리.' },
+    { n: 44, lv: 'i', t: '눌림목 끝 판단법 — 3 중 확인', d: '거래량 감소 + 이평선 지지 + 양봉 출현, 셋이 겹쳐야.' },
+    { n: 45, lv: 'i', t: '눌림목 매매의 핵심 요약', d: '기준봉 → 거래량 감소 → 이평선 지지 → 진입. 순서가 실력.' },
+    { n: 46, lv: 'i', t: '골든크로스 진짜 vs 속임수', d: '거래량이 터져야 진짜. 교차만 보면 당한다.' },
+    { n: 47, lv: 'i', t: '이평선 수렴 → 방향성 폭발', d: '수렴은 에너지 축적, 발산은 폭발.' },
+    { n: 48, lv: 'i', t: '밴드 수축 → 확장 = 곧 터진다', d: '볼린저밴드가 좁아질수록 다음 움직임은 폭발적.' },
+    { n: 49, lv: 'i', t: '매매 계획 없이 진입하면 도박이다', d: '손절가·목표가·비중 중 하나라도 비면 도박.' },
+    { n: 50, lv: 'i', t: '매매 계획의 3 요소', d: '진입가·손절가·목표가. 3개면 충분하다.' },
+    { n: 51, lv: 'i', t: '진입 전에 손절가부터 정하는 이유', d: '손절가가 곧 진입의 자격이다.' },
+    { n: 52, lv: 'i', t: '비중 결정법 — 얼마나 살지도 계획이다', d: '확신 높으면 50%, 보통 30%, 낮으면 20%.' },
+    { n: 53, lv: 'i', t: '포지션 사이즈 = 리스크 결정', d: '전체의 2% 이상 잃는 매매는 하지 않는다.' },
+    { n: 54, lv: 'i', t: '현금 비중의 중요성', d: '총알을 다 쏘면 진다. 항상 30%는 남겨라.' },
+    { n: 55, lv: 'i', t: '풀매수의 위험', d: '100% 투입하면 대응력이 0이다.' },
+    { n: 56, lv: 'i', t: '매수 후 바로 올랐다 — 홀딩 vs 익절', d: '목표가 안 왔으면 들고 간다. 감으로 팔면 규칙이 무너진다.' },
+    { n: 57, lv: 'i', t: '매수 후 바로 빠졌다 — 손절 vs 관망', d: '손절가에 왔으면 자르고, 안 왔으면 기다린다.' },
+    { n: 58, lv: 'i', t: '손절했는데 바로 올라간다', d: '규칙대로 한 것은 틀린 게 아니다. 억울함에 쫓아가면 죽는다.' },
+    { n: 59, lv: 'i', t: '연속 3 번 손절 후 어떻게 해야 하나', d: '멈추고 복기, 비중 줄여 재시작.' },
+    { n: 60, lv: 'i', t: '매매 안 하는 날이 불안하다', d: '자리 없으면 안 하는 게 맞다. 쉬는 것도 매매.' },
+    { n: 61, lv: 'i', t: '풀매수의 위험 — 멘탈이 먼저 터진다', d: '1%만 빠져도 공포, 공포면 규칙이 무너진다.' },
+    { n: 62, lv: 'i', t: '계획 없는 매매 10 번 vs 계획 있는 매매 3 번', d: '매매 횟수가 줄수록 수익이 오른다.' },
+    { n: 63, lv: 'i', t: '포지션 관리가 종목 선정보다 중요하다', d: '뭘 사느냐보다 얼마나·어떻게 관리하느냐.' },
+    { n: 64, lv: 'i', t: '매매 계획이 곧 규칙 매매의 시작이다', d: '적는 순간 감매매는 끝난다.' },
+    { n: 65, lv: 'b', t: 'FOMO — 올라가는 거 보면 참을 수 없는 병', d: 'FOMO가 시키는 대로 사면 항상 꼭대기.' },
+    { n: 66, lv: 'b', t: '손절 못 하는 심리', d: '안 팔아도 이미 잃은 것. 손실 인정이 시작이다.' },
+    { n: 67, lv: 'b', t: '규칙 하나만 지켜도 감매매보다 낫다', d: '규칙 10개 필요 없다. 1개면 시작.' },
+    { n: 68, lv: 'b', t: '손절은 소화기다', d: '불 났을 때 써야 한다. 타고 나서 쓰면 늦는다.' },
+    { n: 69, lv: 'b', t: '감매매는 눈 감고 운전이다', d: '규칙은 내비. 눈 뜨고 내비 보고 운전해라.' },
+    { n: 70, lv: 'b', t: '손절은 낙하산이다', d: '매매 전에 낙하산부터 챙겨라.' },
+    { n: 71, lv: 'i', t: '연승 후 과신의 함정', d: '이겼을 때가 가장 위험. 연승 후엔 비중을 줄여라.' },
+    { n: 72, lv: 'i', t: '프로 트레이더도 약 40%는 잃는다', d: '얼마나 잃느냐가 문제. 이길 때 크게 먹는 게 프로.' },
+    { n: 73, lv: 'i', t: '눌림목은 활시위다', d: '당길수록 멀리 간다. 눌릴수록 다음 상승이 크다.' },
+    { n: 74, lv: 'i', t: '규칙 매매는 시스템이다', d: '감정에 흔들리지 않는 시스템을 만들어라.' },
+    { n: 75, lv: 'a', t: '파동 확인→눌림목 대기→진입 3 단계', d: '파동 확인 없이 들어가면 지도 없이 운전하는 것.' },
+    { n: 76, lv: 'a', t: '손익비 1:2 이상만 진입하는 이유', d: '승률 50%라도 수익이 난다. 손익비에 집착하라.' },
+    { n: 77, lv: 'a', t: '분산매매 실전 — 1 차/2 차 진입', d: '몰빵은 감, 분산은 규칙.' },
+    { n: 78, lv: 'a', t: '파동이 실패하는 경우', d: '전저점 이탈·거래량 재폭발·이평선 하향, 3가지가 실패 신호.' },
+    { n: 79, lv: 'a', t: '파동눌림목은 “감 vs 규칙”의 최종 실전 버전', d: '파동 확인 → 눌림목 대기 → 손익비 진입.' },
+    { n: 80, lv: 'a', t: '피보나치 되돌림 기초', d: '38.2%에서 멈추면 강, 61.8%까지 밀리면 약.' },
+    { n: 81, lv: 'a', t: '피보나치+이평선+거래량 3 중 확인', d: '셋이 겹치는 자리만 들어간다.' },
+    { n: 82, lv: 'a', t: '다중 타임프레임 판단', d: '월봉 큰 그림, 주봉 추세, 일봉 진입.' },
+    { n: 83, lv: 'a', t: '세력의 매집→상승→분배 사이클', d: '매집 구간에서 같이 사고, 분배 구간에서 먼저 빠져라.' },
+    { n: 84, lv: 'a', t: '셀링 클라이맥스', d: '패닉셀 극에 달한 거래량 폭발 = 바닥이 가까울 수 있다.' },
+    { n: 85, lv: 'a', t: '추세 전환의 3 단계 — 감속→전환→가속', d: '추세는 갑자기 바뀌지 않는다.' },
+    { n: 86, lv: 'a', t: '고급 차트분석의 핵심 — 확률 사고', d: '100%는 없다. 확률 높은 자리에서만 진입.' },
+    { n: 87, lv: 'a', t: '엘리어트 파동의 전체 구조', d: '상승 5파 + 하락 3파(ABC) = 1 사이클.' },
+    { n: 88, lv: 'a', t: '충격파 5파 — 각 자리의 의미', d: '1파는 시작, 3파는 폭발, 5파는 끝물.' },
+    { n: 89, lv: 'a', t: '조정파 ABC — 각 자리의 의미', d: 'B파의 함정에 속지 마라. C파 끝이 기회.' }
+  ];
+
+  /* ---------- 보기 순서 섞기 (id 기반 고정 셔플) ---------- */
+  (function shuffleOptions() {
+    function h32(s) {
+      var h = 2166136261;
+      for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return h >>> 0;
+    }
+    function rnd(a) {
+      return function () {
+        a |= 0; a = (a + 0x6D2B79F5) | 0;
+        var t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    D.questions.forEach(function (q) {
+      var r = rnd(h32(q.id));
+      for (var i = q.options.length - 1; i > 0; i--) {
+        var j = Math.floor(r() * (i + 1));
+        var tmp = q.options[i]; q.options[i] = q.options[j]; q.options[j] = tmp;
+        if (q.answer === i) q.answer = j;
+        else if (q.answer === j) q.answer = i;
+      }
+    });
+  })();
+
+  window.CM_DATA = D;
+})();
+
+</script>
+<script>
+/* =========================================================
+   캔들 차트 마스터 — 엔진
+   · 시리즈 생성기(seed 고정) + SVG 차트 렌더러 + 게임 UI
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var D = window.CM_DATA;
+
+  /* ---------- utils ---------- */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function num(n, d) { var p = Math.pow(10, d == null ? 2 : d); return Math.round(n * p) / p; }
+  function fmt(p) { return Math.round(p).toLocaleString('en-US'); }
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function atPath(path, t) {
+    if (!path || !path.length) return 0;
+    if (path.length === 1) return path[0];
+    var p = t * (path.length - 1);
+    var i = Math.min(path.length - 2, Math.floor(p));
+    var f = p - i;
+    return path[i] * (1 - f) + path[i + 1] * f;
+  }
+
+  /* ---------- 시리즈 생성 ----------
+     spec: { start, n, path[], unit, noise, gap, volBase, volPath[], seed,
+             pattern:[{o,h,l,c,v}], next:[{o,h,l,c,v}] }
+     o/h/l/c 는 '직전 종가 기준 unit 배수' 오프셋.  v 는 volBase 배수.
+  */
+  function buildSeries(spec) {
+    var rnd = mulberry32(spec.seed || 3);
+    var n = spec.n || 20;
+    var unit = spec.unit || 100;
+    var noise = spec.noise == null ? 0.30 : spec.noise;
+    var volBase = spec.volBase || 100;
+    var volPath = spec.volPath || [1];
+    var out = [];
+    var prev = spec.start;
+
+    function gen(target, volMul, bodyScale) {
+      var c = target + (rnd() - 0.5) * 2 * noise * unit;
+      var o = prev + (rnd() - 0.5) * 0.20 * unit * (spec.gap == null ? 1 : spec.gap);
+      var bl = Math.abs(c - o);
+      var wickBase = Math.max(0.45 * bl, 0.07 * unit);
+      var h = Math.max(o, c) + Math.pow(rnd(), 1.3) * wickBase;
+      var l = Math.min(o, c) - Math.pow(rnd(), 1.3) * wickBase;
+      var body = Math.abs(c - o) / unit;
+      var v = volBase * (volMul == null ? 1 : volMul) * (0.76 + rnd() * 0.52) * (1 + Math.min(1.7, body * 0.6));
+      out.push({ o: o, h: h, l: l, c: c, v: v, base: true });
+      prev = c;
+      return c;
+    }
+
+    if (spec.legs && spec.legs.length) {
+      // 파동/추세를 구간(leg)으로 정확히 구성
+      var cur = spec.start;
+      for (var gi = 0; gi < spec.legs.length; gi++) {
+        var leg = spec.legs[gi];
+        var ln = leg.n || 2, to = leg.to;
+        for (var k = 1; k <= ln; k++) {
+          var tt = k / ln;
+          var eased = leg.ease === false ? tt : tt * tt * (3 - 2 * tt);
+          gen(cur + (to - cur) * eased, leg.vol, 1);
+        }
+        cur = to;
+      }
+    } else {
+      for (var i = 0; i < n; i++) {
+        var t = n > 1 ? i / (n - 1) : 0;
+        gen(atPath(spec.path, t), atPath(volPath, t), 1);
+      }
+    }
+
+    function add(arr) {
+      if (!arr) return;
+      for (var k = 0; k < arr.length; k++) {
+        var p = arr[k];
+        var o = prev + (p.o || 0) * unit;
+        var c = prev + (p.c || 0) * unit;
+        var hh = prev + (p.h == null ? Math.max(p.o || 0, p.c || 0) : p.h) * unit;
+        var ll = prev + (p.l == null ? Math.min(p.o || 0, p.c || 0) : p.l) * unit;
+        hh = Math.max(hh, o, c);
+        ll = Math.min(ll, o, c);
+        var v = volBase * (p.v == null ? 1 : p.v);
+        out.push({ o: o, h: hh, l: ll, c: c, v: v, base: false });
+        prev = c;
+      }
+    }
+    add(spec.pattern);
+    var visibleCount = out.length;
+    add(spec.next);
+    return { candles: out, visibleCount: visibleCount, unit: unit, volBase: volBase };
+  }
+
+  /* ---------- 라인 값 해석 ----------
+     value: 숫자(가격) | 'minLow:a-b' | 'maxHigh:a-b' | 'fib.382:a-b' | 'close:a' | 'open:a'
+  */
+  function resolveValue(v, cs) {
+    if (typeof v === 'number') return v;
+    var m = /^([a-zA-Z.0-9]+):(\d+)-(\d+)$/.exec(v);
+    var kind, a, b, seg;
+    if (m) {
+      kind = m[1]; a = +m[2]; b = +m[3];
+      seg = cs.slice(a, b + 1);
+    } else {
+      var m2 = /^([a-zA-Z.0-9]+):(\d+)$/.exec(v);
+      if (!m2) return null;
+      kind = m2[1]; a = b = +m2[2];
+      seg = [cs[a]];
+    }
+    if (!seg.length) return null;
+    var lo = Math.min.apply(null, seg.map(function (x) { return x.l; }));
+    var hi = Math.max.apply(null, seg.map(function (x) { return x.h; }));
+    if (kind === 'minLow') return lo;
+    if (kind === 'maxHigh') return hi;
+    if (kind === 'close') return cs[a].c;
+    if (kind === 'open') return cs[a].o;
+    if (kind.indexOf('fib') === 0) {
+      var r = parseFloat(kind.slice(3));
+      return hi - (hi - lo) * r;
+    }
+    if (kind === 'mid') return (lo + hi) / 2;
+    return null;
+  }
+
+  /* ---------- 차트 렌더 ---------- */
+  var CH = { W: 340, PT: 10, PB: 176, VT: 190, VB: 246, AX: 44, PL: 6 };
+
+  function renderChart(spec, opts) {
+    opts = opts || {};
+    var s = spec.__s || (spec.__s = buildSeries(spec));
+    var cs = s.candles;
+    var vis = s.visibleCount;
+    var reveal = !!opts.reveal;
+    var hiIdx = (opts.highlight == null) ? -1 : opts.highlight;
+
+    var W = CH.W, PT = CH.PT, PB = CH.PB, VT = CH.VT, VB = CH.VB;
+    var PL = CH.PL, PR = W - CH.AX;      // plot right
+    var plotW = PR - PL;
+    var slots = cs.length;
+    var slotW = plotW / slots;
+
+    // ---- 해석된 라인 ----
+    var lines = (spec.lines || []).map(function (L) {
+      var val = resolveValue(L.value, cs);
+      return val == null ? null : { y: val, from: L.from == null ? 0 : L.from, to: L.to == null ? slots - 1 : L.to, role: L.role || 'res', label: L.label || '', color: L.color || null, dash: L.dash };
+    }).filter(Boolean);
+
+    // ---- 가격 스케일(보이는 캔들 + 라인) ----
+    var lo = Infinity, hi = -Infinity;
+    for (var i = 0; i < vis; i++) { if (cs[i].l < lo) lo = cs[i].l; if (cs[i].h > hi) hi = cs[i].h; }
+    lines.forEach(function (L) { if (L.y < lo) lo = L.y; if (L.y > hi) hi = L.y; });
+    if (!isFinite(lo) || !isFinite(hi)) { lo = 0; hi = 1; }
+    if (hi - lo < 1e-6) { hi = lo + 1; }
+    var pad = (hi - lo) * 0.12;
+    lo -= pad; hi += pad;
+    function y(p) { return PB - (p - lo) / (hi - lo) * (PB - PT); }
+
+    // ---- 거래량 스케일 ----
+    var vMax = 0;
+    for (var j = 0; j < vis; j++) { if (cs[j].v > vMax) vMax = cs[j].v; }
+    if (vMax <= 0) vMax = 1;
+    var vAvg = 0;
+    for (var k = 0; k < vis; k++) vAvg += cs[k].v;
+    vAvg = vAvg / Math.max(1, vis);
+    function vy(v) { return VB - Math.min(1, v / (vMax * 1.02)) * (VB - VT); }
+
+    function cx(idx) { return PL + slotW * (idx + 0.5); }
+    var bw = Math.max(2.6, Math.min(9, slotW * 0.62));
+
+    var G = 'rgba(255,255,255,.055)';
+    var TXT = '#7d8da6';
+    var out = [];
+    out.push('<svg viewBox="0 0 ' + W + ' 264" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' +
+      esc(opts.aria || '캔들 차트') + '" preserveAspectRatio="xMidYMid meet">');
+    out.push('<defs>' +
+      '<linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7dc8a" stop-opacity=".22"/><stop offset="1" stop-color="#f7dc8a" stop-opacity="0"/></linearGradient>' +
+      '<filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+      '</defs>');
+
+    // 배경
+    out.push('<rect x="0" y="0" width="' + W + '" height="264" fill="#0a1524"/>');
+
+    // 그리드 + 가격축
+    var steps = 4;
+    for (var g = 0; g <= steps; g++) {
+      var yy = PT + (PB - PT) * g / steps;
+      var pv = hi - (hi - lo) * g / steps;
+      out.push('<line x1="' + PL + '" y1="' + num(yy, 1) + '" x2="' + PR + '" y2="' + num(yy, 1) + '" stroke="' + G + '" stroke-width="1"/>');
+      out.push('<text x="' + (PR + 4) + '" y="' + num(yy + 3, 1) + '" fill="' + TXT + '" font-size="8.5" font-weight="700" font-family="system-ui,sans-serif">' + fmt(pv) + '</text>');
+    }
+    // 거래량 영역 구분선
+    out.push('<line x1="' + PL + '" y1="' + (VT - 8) + '" x2="' + PR + '" y2="' + (VT - 8) + '" stroke="rgba(255,255,255,.09)" stroke-width="1"/>');
+
+    // 지지/저항/피보나치 라인
+    lines.forEach(function (L, li) {
+      var y1 = num(y(L.y), 1);
+      var x1 = PL + slotW * L.from + 1, x2 = PL + slotW * (L.to + 1) - 1;
+      var col = L.color || (L.role === 'support' ? '#34d399' : L.role === 'resistance' ? '#fb7185' : L.role === 'fib' ? 'rgba(148,163,184,.75)' : '#94a3b8');
+      var dash = L.dash || (L.role === 'fib' ? '2 4' : '5 4');
+      out.push('<line x1="' + num(x1, 1) + '" y1="' + y1 + '" x2="' + num(x2, 1) + '" y2="' + y1 + '" stroke="' + col + '" stroke-width="1.1" stroke-dasharray="' + dash + '" opacity=".9"/>');
+      if (L.label) {
+        var lx = num(x1 + 3, 1);
+        out.push('<text x="' + lx + '" y="' + num(L.y ? y(L.y) - 4 : 0, 1) + '" text-anchor="start" fill="' + col + '" stroke="#0a1524" stroke-width="2.6" paint-order="stroke" stroke-linejoin="round" font-size="8" font-weight="800" font-family="system-ui,sans-serif">' + esc(L.label) + '</text>');
+      }
+    });
+
+    // 이동평균선
+    (spec.ma || []).forEach(function (period, mi) {
+      var col = maColor(period, mi);
+      var pts = [];
+      for (var q = 0; q < vis; q++) {
+        if (q < period - 1) continue;
+        var sum = 0;
+        for (var z = 0; z < period; z++) sum += cs[q - z].c;
+        pts.push(num(cx(q), 1) + ',' + num(y(sum / period), 1));
+      }
+      if (pts.length > 1) {
+        out.push('<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + col + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>');
+      }
+    });
+
+    // 평균 거래량선
+    if (spec.avgVol !== false) {
+      out.push('<line x1="' + PL + '" y1="' + num(vy(vAvg), 1) + '" x2="' + PR + '" y2="' + num(vy(vAvg), 1) + '" stroke="rgba(247,220,138,.45)" stroke-width="1" stroke-dasharray="3 4"/>');
+    }
+
+    // 캔들 + 거래량 (보이는 구간)
+    for (var c1 = 0; c1 < vis; c1++) out.push(candleSVG(cs[c1], c1, cx, y, vy, bw, false));
+
+    // ? 자리 / 공개 캔들
+    for (var c2 = vis; c2 < slots; c2++) {
+      if (!reveal) {
+        var bx = cx(c2) - Math.max(7, bw) / 2 - 1.5;
+        var bwid = Math.max(14, bw + 3);
+        var byc = (PT + PB) / 2;
+        out.push('<rect x="' + num(bx, 1) + '" y="' + num(byc - 25, 1) + '" width="' + num(bwid, 1) + '" height="50" rx="6" fill="rgba(224,182,74,.07)" stroke="rgba(224,182,74,.6)" stroke-width="1.2" stroke-dasharray="4 3"/>');
+        out.push('<text x="' + num(cx(c2), 1) + '" y="' + num(byc + 7, 1) + '" text-anchor="middle" fill="#f7dc8a" font-size="17" font-weight="900" font-family="system-ui,sans-serif">?</text>');
+      } else {
+        out.push(candleSVG(cs[c2], c2, cx, y, vy, bw, true));
+      }
+    }
+
+    // 마커 (파동 번호 등)
+    (spec.markers || []).forEach(function (M) {
+      var xm = cx(M.i), ym = M.pos === 'below' ? y(cs[M.i].l) + 12 : y(cs[M.i].h) - 12;
+      out.push('<circle cx="' + num(xm, 1) + '" cy="' + num(ym, 1) + '" r="7.5" fill="#0b1526" stroke="' + (M.color || '#e0b64a') + '" stroke-width="1.3"/>');
+      out.push('<text x="' + num(xm, 1) + '" y="' + num(ym + 3.4, 1) + '" text-anchor="middle" fill="' + (M.color || '#f7dc8a') + '" font-size="9" font-weight="900" font-family="system-ui,sans-serif">' + esc(M.text) + '</text>');
+    });
+
+    // 강조 링
+    if (hiIdx >= 0 && hiIdx < cs.length) {
+      var hc = cs[hiIdx], hx = cx(hiIdx);
+      var ty = num(y(hc.h) - 5, 1), ly = num(y(hc.l) + 5, 1);
+      out.push('<rect x="' + num(hx - bw / 2 - 3.5, 1) + '" y="' + ty + '" width="' + num(bw + 7, 1) + '" height="' + num(Math.max(6, ly - ty), 1) + '" rx="4" fill="none" stroke="#f7dc8a" stroke-width="1.6" stroke-dasharray="4 2.5" filter="url(#glow)"/>');
+    }
+
+    // 하단 라벨 칩 (차트를 가리지 않도록 거래량 아래 띠에 배치)
+    if (opts.label) {
+      var tw = Math.min(W - 12, opts.label.length * 9.8 + 18);
+      out.push('<rect x="6" y="247.5" width="' + num(tw, 1) + '" height="13" rx="6.5" fill="rgba(224,182,74,.18)" stroke="rgba(224,182,74,.55)" stroke-width="1"/>');
+      out.push('<text x="' + num(6 + tw / 2, 1) + '" y="257.2" text-anchor="middle" fill="#f7dc8a" font-size="9" font-weight="900" font-family="system-ui,sans-serif">' + esc(opts.label) + '</text>');
+    }
+
+    out.push('</svg>');
+    return out.join('');
+  }
+
+  function maColor(period, i) {
+    if (period <= 5) return '#e0b64a';
+    if (period <= 20) return '#38bdf8';
+    return '#a78bfa';
+  }
+
+  function candleSVG(c, idx, cx, y, vy, bw, anim) {
+    var x = cx(idx);
+    var bull = c.c >= c.o;
+    var col = bull ? '#e11d48' : '#2563eb';
+    var top = y(Math.max(c.o, c.c)), bot = y(Math.min(c.o, c.c));
+    var hgt = Math.max(1.2, bot - top);
+    var s = [];
+    s.push('<g' + (anim ? ' class="rv" style="animation-delay:' + (idx % 4) * 60 + 'ms"' : '') + '>');
+    // 꼬리
+    s.push('<line x1="' + num(x, 1) + '" y1="' + num(y(c.h), 1) + '" x2="' + num(x, 1) + '" y2="' + num(y(c.l), 1) + '" stroke="' + col + '" stroke-width="1.3" stroke-linecap="round"/>');
+    // 몸통
+    s.push('<rect x="' + num(x - bw / 2, 1) + '" y="' + num(top, 1) + '" width="' + num(bw, 1) + '" height="' + num(hgt, 1) + '" rx="' + (bw > 6 ? 1.2 : 0.6) + '" fill="' + col + '"/>');
+    // 거래량
+    var vTop = vy(c.v), vH = 246 - vTop;
+    s.push('<rect x="' + num(x - bw / 2, 1) + '" y="' + num(vTop, 1) + '" width="' + num(bw, 1) + '" height="' + num(Math.max(0.8, vH), 1) + '" rx="0.8" fill="' + col + '" opacity=".55"/>');
+    s.push('</g>');
+    return s.join('');
+  }
+
+  /* ---------- 저장소 ---------- */
+  var KEY = 'candleMaster.v1';
+  var store = load();
+  function load() {
+    var base = { best: {}, plays: {}, wrong: { beginner: [], intermediate: [], advanced: [] } };
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (!raw) return base;
+      var o = JSON.parse(raw);
+      base.best = o.best || {};
+      base.plays = o.plays || {};
+      base.wrong = o.wrong || { beginner: [], intermediate: [], advanced: [] };
+      ['beginner', 'intermediate', 'advanced'].forEach(function (k) { base.wrong[k] = base.wrong[k] || []; });
+      return base;
+    } catch (e) { return base; }
+  }
+  function save() { try { window.localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+
+  /* ---------- 앱 상태 ---------- */
+  var LEVELS = [
+    { key: 'beginner', cls: 'b', name: '초급', sub: '캔들·거래량·지지저항' },
+    { key: 'intermediate', cls: 'i', name: '중급', sub: '기준봉·눌림목·5패턴' },
+    { key: 'advanced', cls: 'a', name: '상급', sub: '파동·확률·실전판단' }
+  ];
+  var app = {
+    tab: 'quiz', level: 'beginner', queue: [], idx: 0,
+    answered: false, picked: -1, correct: 0, points: 0, streak: 0, bestStreak: 0,
+    mode: 'normal', filter: 'all', view: 'play'
+  };
+
+  function levelInfo(k) { for (var i = 0; i < LEVELS.length; i++) if (LEVELS[i].key === k) return LEVELS[i]; return LEVELS[0]; }
+  function qById(id) {
+    var all = D.questions;
+    for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
+    return null;
+  }
+
+  function startRound(levelKey) {
+    app.level = levelKey; app.mode = 'normal';
+    app.queue = D.questions.filter(function (q) { return q.level === levelKey; });
+    resetRound();
+  }
+  function startReview(ids) {
+    app.mode = 'review';
+    app.queue = ids.map(qById).filter(Boolean);
+    if (!app.queue.length) return false;
+    resetRound();
+    return true;
+  }
+  function resetRound() {
+    app.idx = 0; app.answered = false; app.picked = -1;
+    app.correct = 0; app.points = 0; app.streak = 0; app.bestStreak = 0; app.view = 'play';
+  }
+
+  /* ---------- 렌더: 퀴즈 ---------- */
+  function renderQuiz() {
+    var v = $('#view-quiz');
+    if (app.view === 'result') return;      // 결과 화면은 finish 화면이 직접 그린다
+    if (!app.queue.length) startRound(app.level);
+    var q = app.queue[app.idx];
+    if (!q) return finish();
+
+    var lv = levelInfo(app.level);
+    var total = app.queue.length;
+    var pct = Math.round((app.idx) / total * 100);
+
+    var chips = LEVELS.map(function (L) {
+      var on = (L.key === app.level && app.mode === 'normal') ? '1' : '0';
+      return '<button class="lv ' + L.cls + '" data-lv="' + L.key + '" data-on="' + on + '" type="button">' +
+        L.name + '<span>' + L.sub + '</span></button>';
+    }).join('');
+
+    var html = '';
+    html += '<div class="levels">' + chips + '</div>';
+    html += '<div class="hud">' +
+      '<span class="num">문제 ' + (app.idx + 1) + ' / ' + total + '</span>' +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+      '<span class="pt">' + app.points + '점</span></div>';
+
+    html += '<div class="card">';
+    html += '<div class="qhead">' +
+      '<span class="qtag">' + esc(q.tag) + '</span>' +
+      '<h2 class="qtitle">' + esc(q.title) + '</h2>' +
+      (q.sub ? '<p class="qsub">' + esc(q.sub) + '</p>' : '') +
+      '</div>';
+    html += '<div class="chartwrap">' + renderChart(q.chart, { reveal: false, label: q.chartTag || '', aria: q.title }) + '</div>';
+    html += '<div class="legend">' +
+      '<b><i class="sw bull"></i>양봉</b><b><i class="sw bear"></i>음봉</b>' +
+      ((q.chart.ma && q.chart.ma.length) ? '<b><i class="sw ma"></i>' + q.chart.ma.map(function (p) { return p + '일선'; }).join('/') + '</b>' : '') +
+      '<b>↕ 아래 막대 = 거래량</b></div>';
+    html += '<div class="opts">';
+    q.options.forEach(function (o, i) {
+      html += '<button class="opt" data-i="' + i + '" type="button"><span class="k">' + 'ABCD'[i] + '</span><span>' + esc(o) + '</span></button>';
+    });
+    html += '</div>';
+    html += '</div>';   // card
+
+    v.innerHTML = html;
+    v.className = 'screen';
+    app.picked = -1; app.answered = false;
+  }
+
+  function pick(i) {
+    if (app.answered) return;
+    var q = app.queue[app.idx];
+    if (!q) return;
+    app.answered = true; app.picked = i;
+    var ok = (i === q.answer);
+    if (ok) {
+      app.correct++; app.streak++;
+      if (app.streak > app.bestStreak) app.bestStreak = app.streak;
+      app.points += 10 + (app.streak >= 3 ? 5 : 0);
+      if (app.mode === 'review') removeWrong(q.level, q.id);
+    } else {
+      app.streak = 0;
+      if (store.wrong[q.level].indexOf(q.id) < 0) store.wrong[q.level].push(q.id);
+    }
+    save();
+
+    // 옵션 표시
+    $$('#view-quiz .opt').forEach(function (b) {
+      var bi = +b.getAttribute('data-i');
+      b.disabled = true;
+      if (bi === q.answer) b.classList.add('ok');
+      else if (bi === i) b.classList.add('no');
+      else b.classList.add('dim');
+    });
+
+    // 차트 공개
+    var wrap = $('#view-quiz .chartwrap');
+    if (wrap) {
+      wrap.innerHTML = renderChart(q.chart, {
+        reveal: true,
+        label: q.revealLabel || '',
+        highlight: hlIndex(q),
+        aria: q.title
+      });
+    }
+
+    // 해설
+    var exp = document.createElement('div');
+    exp.className = 'exp';
+    exp.innerHTML =
+      '<div class="top-line"><span class="verdict">' + (ok ? '✅' : '❌') + '</span>' +
+      '<span class="ans">' + (ok ? '정답! ' : '아쉬워요 · 정답은 ') + '“' + esc(q.options[q.answer]) + '”</span></div>' +
+      '<div class="body">' + q.why + '</div>' +
+      '<div class="keyline">💡 ' + q.key + '</div>' +
+      '<div style="padding:0 .8rem .7rem"><span class="rulechip">' + esc(q.rule) + '</span></div>';
+    $('.card').appendChild(exp);
+    app.expNode = exp;
+
+    // 콤보
+    if (app.streak >= 3) showCombo(app.streak);
+
+    // 다음 버튼
+    var btn = document.createElement('button');
+    btn.className = 'nextbtn';
+    btn.type = 'button';
+    btn.id = 'nextBtn';
+    btn.textContent = (app.idx === app.queue.length - 1) ? '결과 보기 →' : '다음 문제 →';
+    btn.addEventListener('click', next);
+    $('.card').appendChild(btn);
+
+    setTimeout(function () {
+      try {
+        var hd = $('.top');
+        var hh = hd ? hd.offsetHeight : 100;
+        var cw = $('#view-quiz .chartwrap');
+        if (!cw) return;
+        var y = cw.getBoundingClientRect().top + (window.pageYOffset || 0) - hh - 8;
+        if (y < 0) y = 0;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      } catch (err) { /* jsdom 등 */ }
+    }, 80);
+  }
+
+  function showCombo(n) {
+    var c = $('#combo');
+    c.textContent = '🔥 ' + n + '연속 정답!' + (n >= 5 ? ' 미쳤다!' : '');
+    c.classList.add('on');
+    clearTimeout(showCombo._t);
+    showCombo._t = setTimeout(function () { c.classList.remove('on'); }, 1600);
+  }
+
+  // 강조할 캔들: 마지막 보이는 캔들에서 hlBack 만큼 뒤
+  function hlIndex(q) {
+    if (q.hlBack == null) return -1;
+    var s = q.chart.__s || (q.chart.__s = buildSeries(q.chart));
+    var i = s.visibleCount - 1 - q.hlBack;
+    return i >= 0 ? i : -1;
+  }
+  function removeWrong(level, id) {
+    var a = store.wrong[level] || [];
+    var i = a.indexOf(id);
+    if (i >= 0) a.splice(i, 1);
+  }
+
+  function next() {
+    app.idx++;
+    if (app.idx >= app.queue.length) return finish();
+    renderQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function () { window.scrollTo(0, 0); }, 10);
+  }
+
+  /* ---------- 결과 ---------- */
+  function finish() {
+    var total = app.queue.length;
+    var pct = total ? Math.round(app.correct / total * 100) : 0;
+    var medal, title, desc;
+    if (pct >= 90) { medal = '🏆'; title = '캔들 마스터'; desc = '차트를 규칙으로 읽는 눈이 완성됐어요.'; }
+    else if (pct >= 75) { medal = '🥇'; title = '차트 읽는 눈'; desc = '실전에서 충분히 통하는 수준이에요.'; }
+    else if (pct >= 55) { medal = '🥈'; title = '기본기 완성'; desc = '한 번 더 돌리면 확실히 잡혀요.'; }
+    else { medal = '🌱'; title = '복습이 필요해요'; desc = '해설을 읽고 오답만 다시 풀어봐요.'; }
+
+    if (app.mode === 'normal') {
+      var lvKey = app.level;
+      var prevBest = store.best[lvKey] == null ? -1 : store.best[lvKey];
+      if (app.points > prevBest) {
+        store.best[lvKey] = app.points;
+        if (prevBest >= 0) desc = '🎉 최고 점수 경신! ' + desc;
+        else desc = '첫 기록! ' + desc;
+      }
+      store.plays[lvKey] = (store.plays[lvKey] || 0) + 1;
+      save();
+    }
+
+    var v = $('#view-quiz');
+    var wrongCount = store.wrong[app.level] ? store.wrong[app.level].length : 0;
+
+    var html = '<div class="card result">' +
+      '<div class="medal">' + medal + '</div>' +
+      '<h3>' + title + '</h3>' +
+      '<p class="sub">' + esc(desc) + '</p>' +
+      '<div class="scorebox">' +
+      '<div class="stat"><b>' + app.correct + '/' + total + '</b><span>맞힌 문제</span></div>' +
+      '<div class="stat"><b>' + pct + '%</b><span>정답률</span></div>' +
+      '<div class="stat"><b>' + app.points + '</b><span>획득 점수</span></div>' +
+      '<div class="stat"><b>' + app.bestStreak + '</b><span>최고 콤보</span></div>' +
+      '</div>';
+
+    if (app.mode === 'normal' && wrongCount > 0) {
+      html += '<div class="wronglist"><div class="h">📌 이 단계에서 아직 틀린 문제 ' + wrongCount + '개</div><ul>' +
+        store.wrong[app.level].map(function (id) {
+          var q = qById(id);
+          return q ? '<li><i>✕</i><span>' + esc(q.tag) + ' · ' + esc(q.title) + '</span></li>' : '';
+        }).join('') + '</ul></div>';
+    }
+    if (app.mode === 'review' && wrongCount > 0) {
+      html += '<div class="wronglist"><div class="h">📌 남은 오답 ' + wrongCount + '개 · 한 번 더 돌려봐요</div></div>';
+    }
+
+    html += '<div class="btns">';
+    if (app.mode === 'normal') {
+      var wl = store.wrong[app.level] || [];
+      if (wl.length) html += '<button class="btn" id="reviewBtn" type="button">🔁 오답만 다시 풀기 (' + wl.length + ')</button>';
+      html += '<button class="btn ghost" id="againBtn" type="button">↺ ' + levelInfo(app.level).name + ' 다시 도전</button>';
+      html += '<button class="btn ghost" id="bookBtn" type="button">📖 패턴 도감 보기</button>';
+    } else {
+      var allWrong = [].concat(store.wrong.beginner, store.wrong.intermediate, store.wrong.advanced);
+      if (allWrong.length) html += '<button class="btn" id="reviewBtn" type="button">🔁 남은 오답 다시 풀기 (' + allWrong.length + ')</button>';
+      html += '<button class="btn ghost" id="bookBtn" type="button">📖 패턴 도감 보기</button>';
+      html += '<button class="btn ghost" id="homeBtn" type="button">🏠 단계 선택으로</button>';
+    }
+    html += '</div></div>';
+
+    v.innerHTML = html;
+
+    var rb = $('#reviewBtn');
+    if (rb) rb.addEventListener('click', function () {
+      var ids = app.mode === 'normal' ? store.wrong[app.level].slice()
+        : [].concat(store.wrong.beginner, store.wrong.intermediate, store.wrong.advanced);
+      if (startReview(ids)) renderQuiz();
+    });
+    var ab = $('#againBtn');
+    if (ab) ab.addEventListener('click', function () { startRound(app.level); renderQuiz(); });
+    var bb = $('#bookBtn');
+    if (bb) bb.addEventListener('click', function () { switchTab('book'); });
+    var hb = $('#homeBtn');
+    if (hb) hb.addEventListener('click', function () { startRound(app.level); renderQuiz(); });
+    app.view = 'result';
+  }
+
+  /* ---------- 도감 ---------- */
+  function renderBook() {
+    var v = $('#view-book');
+    var pats = D.patterns.map(function (p, i) {
+      return '<div class="pat">' +
+        '<div class="hd"><span class="no">' + (i + 1) + '</span><h4>' + esc(p.name) + '</h4>' +
+        '<span class="badge ' + p.badgeCls + '">' + esc(p.badge) + '</span></div>' +
+        '<div class="mini">' + renderChart(p.chart, { reveal: true, label: p.miniLabel || '', highlight: hlIndex(p), aria: p.name }) + '</div>' +
+        '<div class="tx">' + p.body + '<span class="say">👉 ' + p.act + '</span></div>' +
+        '</div>';
+    }).join('');
+
+    var f = app.filter;
+    var rules = D.rules.filter(function (r) { return f === 'all' || r.lv === f; });
+    var ruleHtml = rules.map(function (r) {
+      return '<div class="rule"><span class="n">#' + r.n + '</span><div class="c"><div class="t">' + esc(r.t) + '</div><div class="d">' + esc(r.d) + '</div></div><span class="lv ' + r.lv + '">' + (r.lv === 'b' ? '초급' : r.lv === 'i' ? '중급' : '상급') + '</span></div>';
+    }).join('');
+
+    v.innerHTML =
+      '<h2 class="sec">🕯️ 장대양봉 뒤 음봉 <span class="n">5가지 패턴</span></h2>' +
+      '<div class="patlist">' + pats + '</div>' +
+      '<h2 class="sec">📖 핸드북 규칙 요약 <span class="n">#1~#89 · ' + D.rules.length + '개</span></h2>' +
+      '<div class="filters">' +
+      ['all', 'b', 'i', 'a'].map(function (k) {
+        var nm = k === 'all' ? '전체' : k === 'b' ? '🟢 초급' : k === 'i' ? '🟡 중급' : '🔴 상급';
+        return '<button class="fchip" data-f="' + k + '" data-on="' + (app.filter === k ? '1' : '0') + '" type="button">' + nm + '</button>';
+      }).join('') + '</div>' +
+      '<div class="rules">' + ruleHtml + '</div>' +
+      '<div class="tipbox">책 제목은 《87선》이지만 본문은 #89까지 이어집니다. 규칙 번호(#)는 원문 표기를 그대로 따랐어요.</div>';
+  }
+
+  /* ---------- 기록 ---------- */
+  function renderStats() {
+    var v = $('#view-stats');
+    var rows = LEVELS.map(function (L) {
+      var best = store.best[L.key];
+      var plays = store.plays[L.key] || 0;
+      var wrong = (store.wrong[L.key] || []).length;
+      var tot = D.questions.filter(function (q) { return q.level === L.key; }).length;
+      return '<div class="recrow"><span class="ic ' + L.cls + '">' +
+        (L.key === 'beginner' ? '🟢' : L.key === 'intermediate' ? '🟡' : '🔴') + '</span>' +
+        '<span class="nm">' + L.name + ' <small>도전 ' + plays + '회 · 오답 ' + wrong + '/' + tot + '</small></span>' +
+        '<span class="sc">' + (best == null ? '—' : best + '<em>점</em>') + '</span></div>';
+    }).join('');
+
+    var allWrong = [].concat(store.wrong.beginner, store.wrong.intermediate, store.wrong.advanced);
+    var totalQ = D.questions.length;
+
+    v.innerHTML =
+      '<h2 class="sec">🏆 내 실력</h2>' +
+      '<div class="card" style="padding:.6rem"><div class="rec">' + rows + '</div></div>' +
+      '<h2 class="sec">🔁 오답 복습</h2>' +
+      '<div class="card" style="padding:.7rem">' +
+      '<div style="font-size:.84rem;color:#cfd9ea;line-height:1.6">지금까지 틀린 문제 <b style="color:#f7dc8a">' + allWrong.length + '개</b> / 전체 ' + totalQ + '문제</div>' +
+      '<div class="btns" style="margin-top:.6rem">' +
+      (allWrong.length ? '<button class="btn" id="revAll" type="button">🔁 오답 ' + allWrong.length + '문제 다시 풀기</button>' : '<button class="btn ghost" type="button" disabled>오답이 없어요 👏</button>') +
+      '</div></div>' +
+      '<h2 class="sec">⚙️ 기록 관리</h2>' +
+      '<div class="card" style="padding:.7rem"><div class="btns">' +
+      '<button class="btn ghost" id="resetBtn" type="button">기록 초기화</button></div></div>' +
+      '<div class="tipbox">점수는 문제당 10점, 3연속 정답부터 문제당 +5점 보너스가 붙어요. 단계별 최고 점수는 이 기기에 저장됩니다.</div>';
+
+    var r = $('#revAll');
+    if (r) r.addEventListener('click', function () {
+      if (startReview(allWrong)) { switchTab('quiz'); }
+    });
+    var rs = $('#resetBtn');
+    if (rs) rs.addEventListener('click', function () {
+      var ok = true;
+      try { ok = window.confirm('점수와 오답 기록을 모두 지울까요?'); } catch (e) { ok = true; }
+      if (!ok) return;
+      store = { best: {}, plays: {}, wrong: { beginner: [], intermediate: [], advanced: [] } };
+      save(); renderStats();
+    });
+  }
+
+  /* ---------- 탭 ---------- */
+  function switchTab(tab) {
+    app.tab = tab;
+    $$('.tab').forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-tab') === tab ? 'true' : 'false'); });
+    ['quiz', 'book', 'stats'].forEach(function (k) {
+      var el = $('#view-' + k);
+      if (el) el.hidden = (k !== tab);
+    });
+    if (tab === 'quiz') { if (app.view !== 'result') renderQuiz(); }
+    if (tab === 'book') renderBook();
+    if (tab === 'stats') renderStats();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- 이벤트 ---------- */
+  function bind() {
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('[data-tab],[data-lv],[data-i],[data-f]') : null;
+      if (!t) return;
+      if (t.hasAttribute('data-tab')) { switchTab(t.getAttribute('data-tab')); return; }
+      if (t.hasAttribute('data-lv')) {
+        var lk = t.getAttribute('data-lv');
+        // 진행 중인 같은 단계를 다시 누르면 판을 새로 시작하지 않는다
+        if (lk === app.level && app.mode === 'normal' && app.view === 'play' && app.idx > 0) return;
+        app.mode = 'normal';
+        startRound(lk);
+        app.view = 'play';
+        renderQuiz();
+        return;
+      }
+      if (t.hasAttribute('data-f')) {
+        app.filter = t.getAttribute('data-f');
+        renderBook();
+        return;
+      }
+      if (t.hasAttribute('data-i')) {
+        pick(+t.getAttribute('data-i'));
+      }
+    });
+
+    var fs = $('#fsBtn');
+    if (fs) fs.addEventListener('click', function () {
+      var big = document.documentElement.classList.toggle('big');
+      fs.textContent = big ? '가-' : '가+';
+      try { window.localStorage.setItem(KEY + '.fs', big ? '1' : '0'); } catch (e) {}
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (app.tab !== 'quiz') return;
+      if (/^[1-4]$/.test(e.key)) {
+        var b = $('.opt[data-i="' + (+e.key - 1) + '"]');
+        if (b && !app.answered) pick(+e.key - 1);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        var nb = $('#nextBtn');
+        if (nb) { e.preventDefault(); next(); }
+      }
+    });
+  }
+
+  /* ---------- 부트 ---------- */
+  function boot() {
+    try {
+      if (window.localStorage.getItem(KEY + '.fs') === '1') {
+        document.documentElement.classList.add('big');
+        var fs = $('#fsBtn'); if (fs) fs.textContent = '가-';
+      }
+    } catch (e) {}
+    bind();
+    startRound('beginner');
+    switchTab('quiz');
+  }
+
+  // 테스트/디버그용 노출
+  window.__CM = {
+    buildSeries: buildSeries, renderChart: renderChart, resolveValue: resolveValue,
+    get app() { return app; }, store: function () { return store; },
+    startRound: startRound, startReview: startReview, renderQuiz: renderQuiz,
+    switchTab: switchTab, pick: pick, next: next, finish: finish,
+    renderBook: renderBook, renderStats: renderStats, data: D
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+
+</script>
+</body>
+</html>
